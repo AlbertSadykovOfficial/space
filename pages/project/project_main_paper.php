@@ -122,7 +122,22 @@
   		}
 
   	}
+  </script>
 
+  <script>
+     function change_div(id){
+        document.getElementById('content_maker').style.display = 'block';
+        document.getElementById('content_maker').children[0].children[0].dataset.id = id;
+        document.getElementById('content_ifr').contentWindow.document.body.innerHTML = document.getElementById(id).innerHTML;
+      }
+      function hide_this(element)
+      {
+          document.getElementById(element.parentNode.parentNode.getAttribute('id')).style.display = 'none';
+      }
+      function apply(element){
+        document.getElementById('content_maker').style.display = 'none';
+        document.getElementById(element.dataset.id).innerHTML = document.getElementById('content_ifr').contentWindow.document.body.innerHTML;
+      }
   </script>
 
 <?php
@@ -131,16 +146,27 @@
 		// Массив, который будет хранить данные о номере последнего элемента группы (для изменения порядка)
 		$position_array = [];
 		
-		echo "<div id='paper'>";
-	
-		$task_list = queryMySQL("SELECT * FROM report WHERE id LIKE '$task_id%' ORDER BY position");
+		echo "<div id='paper' style='overflow-y:scroll;'>";
+
+
+	   $task_list = queryMySQL("SELECT * FROM report WHERE id LIKE '$task_id%' ORDER BY position");
 		$task_list_length = $task_list->num_rows;
 
-		echo "<span style='display:inline-block; width:60%; margin-left: 300px; text-align:center'>\n<!--<form method='POST' action='project.php?project_id=$task_id'>--><textarea  id='content' cols='60' rows='10'>\n";
+    echo "<div id='content_maker' style='position:fixed; width:60%; margin-left: 20%; margin-top:5%; overflow-x:hidden;'>".
+            "<div style='background-color: #f0f0f0; border: 0.3px solid rgba(0,0,0,0.2)'>".
+              "Редактирование Элемента".
+              "<button onclick=apply(this)>Apply</button><button style='float:right' onclick=hide_this(this)>X</button>".
+            "</div>".
+            "<textarea  id='content' cols='60' rows='10'>\n</textarea>\n".
+          "</div>";
+
+		echo "<span style='display:inline-block;  width:60%; height: 200%; margin-bottom: 100px; margin-left: 20%; background-color : whitesmoke;box-shadow: 0 14px 28px rgba(0,0,0,0.6), 0 10px 10px rgba(0,0,0,0.6);margin-top: 2%;'>\n";
+
+    //<!--<form method='POST' action='project.php?project_id=$task_id'>-->";
 		
 		$conclusions_len = [];
 		
-		echo "<div contentEditable id=\"look\">";
+		echo "<div  id=\"look\" style='font-size:20px; padding-top:50px; padding-left:80px; padding-right:50px;'>"; // 
 			if ($task_list_length) 
 			{
 				$task_id = $_GET['project_id'].'_'; /// (1_2)->(1_2_)
@@ -150,10 +176,10 @@
 					$task = $task_list->fetch_array(MYSQLI_ASSOC);
 					$output = $task['conclusion'];
 					$id_now = $task['position']; 
-					
-					$conclusions_len[] = strlen($output);
 
-					echo "<div id='$id_now' title='Элемент: $id_now'  style='border-top: 1px solid transparent; border-image: linear-gradient(to right, black 0%, transparent 50%, transparent  100%); border-image-slice: 1;'>$output</div>\n"; //
+					$conclusions_len[] = strlen($output);
+          //style='border-top: 1px solid transparent; border-image: linear-gradient(to right, black 0%, transparent 50%, transparent  100%); border-image-slice: 1;'
+					echo "<div id='$id_now' title='Элемент: $id_now' oncontextmenu=\"change_div('$id_now'); return false; \">$output</div>\n"; //
 					array_push($position_array,$id_now);
 				}
 		echo "</div>";
@@ -167,7 +193,7 @@
 				$last_number_of_this_list = 0;
 			}
 
-		echo "</textarea>\n<!--</form>-->\n</span><br>\n";//</div><input type='submit' value='Upload'>\n
+		echo "<!--</form>-->\n</span><br>\n";//</div><input type='submit' value='Upload'>\n
 // Заполняем массив длины каждого conclusion		
 		$task_id = $_GET['project_id'];
 		echo "<script> let conclusion_len = [];\n position = []; task_id = '$task_id';\n";

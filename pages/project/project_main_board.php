@@ -30,6 +30,7 @@ body
 ._content
 {
 		position:absolute; 
+		cursor:pointer;
 			transition: 0s;
 			background-color:rgb(282,189,53);
 			border-radius: 4px;
@@ -61,12 +62,33 @@ body
 	width: 100%;
 	height: 100%;
 }
+.my_file
+{
+	background: none;
+	width: 5%;
+	box-shadow: none;
+	border-radius: none;
+}
+.my_file image
+{
+	width: 100%;
+}
+.my_file a
+{
+	color:white;
+	text-decoration: none;
+	display: none;
+}
+
 ._content img
 {
 	max-width: 100%;
 	max-height: 100%;
 }
-
+._content img hover
+{
+	width:10%;
+}
 ._content textarea
 {
 	height:auto; 
@@ -86,6 +108,12 @@ body
 	display:inline-block;
 	border:none;  
 	background-color:rgb(282,189,53)
+}
+
+.my_file input
+{
+	color:white;
+	background: none;
 }
 </style>
 
@@ -125,265 +153,172 @@ let drag_element = '';
 			document.body.addEventListener('mouseup',click_on_body); 
 	}
 	
-function create_new_note()
-{
-	if(document.getElementById('set')) document.getElementById('set').remove();
-	//console.log(DATA_ELEMENTS_ARRAY);
-	  x = document.body.clientWidth/3+'px';
-  	y = '0px';
-  	w = "230px";
-  	h = "100px";
-  	z = DATA_ELEMENTS_ARRAY.length+1;
-  	c = 'rgb(282,189,53)'; // yellow
-	last_note_id++;
-	style = "margin-left:"+x+"; margin-top:"+y+"; width:"+w+"; height:"+h+"; z-index: "+z+"; background-color:"+c+";";
-
-	content = "<div id='note_"+last_note_id+"' style='"+style+"' class='_content my_note' oncontextmenu='show_settings(this);return false'>"+
-							"<div>"+
-								"<span  onmousedown=drag_me(this)>X</span>"+
-								"<input type='text' value='заметка' style='background-color:"+c+"'>"+
-								"<button onclick=remove_element(this); style='float:right;width:9%;'>C</button>"+
-							"</div>"+
-								"<textarea style='width:100%; height:100%; background-color:"+c+";'></textarea>"+
-						"</div>";
-		DATA_ELEMENTS_ARRAY.push(['note_'+last_note_id, x, y, w, h, z, c,'note','']);
- // console.log(DATA_ELEMENTS_ARRAY);
-	document.getElementById('viz_content').insertAdjacentHTML('beforeEnd',content);
-}
-
-function change_file_type(type)
-{
-		if (!type)
+		function add_element(type)
 		{
-			content = "<p>Введите Интернет ссылку на фото</p>"+
-								"<input type='text' id='ref_type' value='internet' style='display:none'>"+
-								"<input type='text' id='ref'>";
-			document.getElementById('file_ref_block').innerHTML = content;
-		}
-		else
-		{
-			content = "<p>Выберите файл</p>"+
-								"<input type='text' id='ref_type' value='self' style='display:none'>"+
-								"<input type='text' id='ref'>"+my_files;
-			document.getElementById('file_ref_block').innerHTML = content;
-		}
-}
-function create_new_file_div()
-{
+			if(document.getElementById('set')) document.getElementById('set').remove();
 
-  ref_type	= document.getElementById('ref_type').value;
-  if (ref_type == 'internet')  	address 	= document.getElementById('ref').value;
-  else if (ref_type == 'self')  address 	= '../../images/tmp/' + document.getElementById('ref').value;
- 
+			x = document.body.clientWidth/3+'px';
+		  y = '50px';
+		  z = DATA_ELEMENTS_ARRAY.length+1;
+		  c = 'rgb(282,189,53)'; // yellow
+			
+			if(type != 'note') ref_type	= document.getElementById('ref_type').value;
 
-  content = "<div><img src='../../images/settings_icon.png' style='display:inline-block'>"+document.getElementById('ref').value+"</div>";
-   document.getElementById('ref_par').remove();
-  document.getElementById('viz_content').insertAdjacentHTML('beforeEnd',content);
+			if (type == 'note')
+			{
+				w = "230px";
+		  	h = "100px";
+				meta = '';
 
-}
-function create_new_file()
-{
-	if(document.getElementById('set')) document.getElementById('set').remove();
-	content = "<div id='ref_par' style='position:absolute;' >"+
-							"<button onclick='change_file_type(0)'>Интернет</button><button onclick='change_file_type(1)'>Свое</button>"+
-							"<div id='file_ref_block'>"+
-								"<p>Выберите файл</p>"+
-								"<input type='text' id='ref_type' value='self' style='display:none'>"+
-								"<input type='text' id='ref'>"+my_files+
-							"</div>"+
-							"<button onclick='create_new_file_div()'>Создать</button>"+
-						"</div>";
-	document.getElementById('viz_content').insertAdjacentHTML('beforeEnd',content);
-}
+				last_note_id++;
+				id = type+'_'+last_note_id;
+			}else if (type == 'image')
+			{
+		  	w = "200px";
+		  	h = "200px";
+		  	if 			(ref_type == 'internet')  	meta 	= document.getElementById('ref').value;
+		  	else if (ref_type == 'self') 				meta 	= '../../images/' + document.getElementById('ref').value;
 
-function change_image_type(type)
-{
-		if (!type)
-		{
-			content = "<p>Введите Интернет ссылку на фото</p>"+
-								"<input type='text' id='ref_type' value='internet' style='display:none'>"+
-								"<input type='text' id='ref'>";
-			document.getElementById('image_ref_block').innerHTML = content;
-		}
-		else
-		{
-			content = "<p>Выберите файл</p>"+
-								"<input type='text' id='ref_type' value='self' style='display:none'>"+
-								"<input type='text' id='ref'>"+my_files;
-			document.getElementById('image_ref_block').innerHTML = content;
-		}
-}
+		  	last_image_id++;
+				id = type+'_'+last_image_id;
+			}else if (type == 'video')
+			{
+			  w = "320px";
+			  h = "180px";
 
-function create_new_image()
-{
-	if(document.getElementById('set')) document.getElementById('set').remove();
-	content = "<div id='ref_par' style='position:absolute;' >"+
-							"<button onclick='change_image_type(0)'>Интернет</button><button onclick='change_image_type(1)'>Свое</button>"+
-							"<div id='image_ref_block'>"+
-							"<p>Введите Интернет ссылку на фото</p>"+
-							"<input type='text' id='ref_type' value='internet' style='display:none'>"+
-							"<input type='text' id='ref'>"+
-							"</div>"+
-							"<button onclick='create_new_image_div()'>Создать</button>"+
-						"</div>";
-	document.getElementById('viz_content').insertAdjacentHTML('beforeEnd',content);
-}
-function create_new_image_div()
-{
-	last_image_id++;
-	  x = document.body.clientWidth/3+'px';
-  	y = '50px';
-  	w = "200px";
-  	h = "200px";
-  	z = DATA_ELEMENTS_ARRAY.length+1;
-  	c = 'rgb(282,189,53)'; // yellow
+				  if (ref_type == 'internet')
+			  	{
+				  	meta = get_meta((document.getElementById('ref').value).trim());
+			  		if (meta === false)
+					  {
+							alert('Видео должно быть с YouTube\nПроверьте Ссылку');
+					  	last_video_id--;
+					  	return 0;
+					  }
+					 meta = "https://youtube.com/embed/" + meta;
+			  	}
+			  	else if (ref_type == 'self')  
+			  	{
+				  	meta = '../../images/tmp/' + document.getElementById('ref').value;
+			  	}
 
- 
-  ref_type	= document.getElementById('ref_type').value;
-  if (ref_type == 'internet')  	address 	= document.getElementById('ref').value;
-  else if (ref_type == 'self')  address 	= '../../images/' + document.getElementById('ref').value;
-  document.getElementById('ref_par').remove();
-	
-	
+			  last_video_id++;
+				id = type+'_'+last_video_id;
+			}else if (type == 'file')
+			{
+		  	w = '5%';
+		  	h = 'auto';
+		  	c = 'rgb(0,0,0,0)'; 
+		  	if 			(ref_type == 'internet')  	meta 	= document.getElementById('ref').value;
+		  	else if (ref_type == 'self')  			meta 	= '../../images/tmp/' + document.getElementById('ref').value;
 
-	style = "margin-left:"+x+"; margin-top:"+y+"; width:"+w+"; height:"+h+"; z-index: "+z+"; background-color:"+c+";";
+		  	last_file_id++;
+				id = type+'_'+last_file_id;
 
-	content = "<div id='image_"+last_image_id+"' class='_content my_image' oncontextmenu='show_settings(this);return false' style='"+style+"'>"+
-							"<div>"+
-								"<span  onmousedown=drag_me(this) 			style='background-color:"+c+"'>X</span>"+
-								"<input type='text' value='Картинка' 		style='background-color:"+c+"' >"+
-								"<button onclick=remove_element(this); 	style='float:right;width:9%;'>C</button>"+
-							 "</div>"+
-								"<img src='"+address+"'>"+
-						"</div>";
-	
-	DATA_ELEMENTS_ARRAY.push(['image_'+last_image_id, x, y, w, h, z, c, 'image', address]);
-	//console.log(DATA_ELEMENTS_ARRAY);
-	document.getElementById('viz_content').insertAdjacentHTML('beforeEnd',content);
+				type = document.getElementById('ref_par').children[1].children[2].value;
+			}
 
-}
+			if (type != 'note') document.getElementById('ref_par').remove();
 
-function change_video_type(type)
-{
-		if (!type)
-		{
-			content = "<p>Введите YouTube ссылку на видео</p>"+
-								"<input type='text' id='ref_type' value='internet' style='display:none'>"+
-								"<input type='text' id='ref'>";
-			document.getElementById('video_ref_block').innerHTML = content;
-		}
-		else
-		{
-			content = "<p>Выберите Видео</p>"+
-								"<input type='text' id='ref_type' value='self' style='display:none'>"+
-								"<input type='text' id='ref'>"+my_files;
-			document.getElementById('video_ref_block').innerHTML = content;
-		}
-}
-
-function create_new_video()
-{
-	if(document.getElementById('set')) document.getElementById('set').remove();
-	content = "<div style='position:absolute;' id='ref_par'>"+
-						"<button onclick='change_video_type(0)'>Интернет</button><button onclick='change_video_type(1)'>Свое</button>"+
-						"<div id='video_ref_block'>"+
-							"<p>Введите YouTube ссылку на видео</p>"+
-							"<input type='text' id='ref_type' value='internet' style='display:none'>"+
-							"<input type='text' id='ref'>"+
-						"</div>"+
-							"<button onclick='create_new_video_div()'>Создать</button>"+
-						"</div>";
-	document.getElementById('viz_content').insertAdjacentHTML('beforeEnd',content);
-}
-
-function get_meta(ref)
-{
-	if (ref.includes('https://youtube.com/embed/'))
+		 DATA_ELEMENTS_ARRAY.push([id, x, y, w, h, z, c, type, meta]);
+		 console.log(DATA_ELEMENTS_ARRAY[DATA_ELEMENTS_ARRAY.length-1]);
+		 build_element(DATA_ELEMENTS_ARRAY.length-1);
+		} 
+	function create_new_element(type)
 	{
-		return ref.substr(26);
-	}
-	else if(ref.includes('https://youtu.be/')) 
-  {
-  	return ref.substr(17);
-  }
-  else if(ref.includes('https://www.youtube.com/'))
-  {
+		if (type == 'image'){
+			descr_1 = 'Интернет';
+			descr_2 = 'Фото';
+		}else if (type == 'file'){
+			descr_1 = 'Интернет';
+			descr_2 = 'Файл';
+		}else if (type == 'video'){
+			descr_1 = 'YouTube';
+			descr_2 = 'Видео';
+		}
 
-  	first = ref.indexOf('v=')+2;												// Ищем id видео
-  	last	= ref.indexOf('&',ref.indexOf('v='));			// Проверяем, есть ли после id еще параметры?
-  	
-  	if (last == -1) 	last = ref.length - 1;						// Параметров нет - считываем все, что после "v="
-  	else 							last = last-first;										// Параметры есть - находим последний символ id видео
+		if (document.getElementById('ref_par') != null) document.getElementById('ref_par').remove();
+		if(document.getElementById('set') != null) document.getElementById('set').remove();
 
-  	return ref.substr(first,last);
-  }
-  else
-  {
-  	return false;
-  }
-}
-
-	function create_new_video_div()
-	{
-	  last_video_id++;
-	    x = document.body.clientWidth/3+'px';
-	  	y = '50px';
-	  	w = "320px";
-	  	h = "180px";
-	  	z = DATA_ELEMENTS_ARRAY.length+1;
-	  	c = 'rgb(282,189,53)'; // yellow
-
-	  address = (document.getElementById('ref').value).trim();
-	  ref_type	= document.getElementById('ref_type').value;
-  	if (ref_type == 'internet')
-  	{
-	  		address 	= (document.getElementById('ref').value).trim;
-	  		meta = get_meta(address);
-	  		if (meta === false)
-			  {	
-					alert('Видео должно быть с YouTube\nПроверьте Ссылку');
-			  	last_video_id--;
-			  	return 0;
-			  }
-
-			  address = 'https://youtube.com/embed/' + meta;
-  	}
-  	else if (ref_type == 'self')  
-  	{
-	  		meta = document.getElementById('ref').value;
-	  		address 	= '../../images/tmp/' + meta;
-  	}
-
-	  document.getElementById('ref_par').remove();
-		
-	  DATA_ELEMENTS_ARRAY.push(['video_'+last_video_id, x, y, w, h, z, c,'video', meta]);
-
-	  style = "margin-left:"+x+"; margin-top:"+y+"; width:"+w+"; height:"+h+"; z-index: "+z+"; background-color:"+c+";";
-
-		content = "<div id='video_"+last_video_id+"' class='_content my_video' style='"+style+"' oncontextmenu='show_settings(this);return false'>"+
-								"<div>"+
-									"<span  onmousedown=drag_me(this) style='width:10%; background-color:"+c+";'>X</span>"+
-									"<input id='video_"+last_video_id+"_name' type='text' value='Видео' style='width:80%; background-color:"+c+";'>"+
-									"<button onclick=remove_element(this); style='float:right;width:9%;'>C</button>"+
-								 "</div>"+
-								 "<iframe width='auto' height='auto' src='"+address+"' frameborder='0' allowfullscreen data-meta="+meta+"></iframe>"+
+		content = "<div style='position:absolute;' id='ref_par'>"+
+							"<div><button onclick=change_type(\'"+descr_1+"\',\'"+descr_2+"\',0)>Интернет</button><button onclick=change_type(\'"+descr_1+"\',\'"+descr_2+"\',1)>Сервер</button><button onclick=remove_element(this);>X</button></div>"+
+							"<div id='ref_block'>"+
+								"<p>Введите "+descr_1+" ссылку на "+descr_2+"</p>"+
+								"<input type='text' id='ref_type' value='internet' style='display:none'>"+
+								"<input type='text' id='ref'>"+
+							"</div>"+
+								"<button onclick=add_element(\'"+type+"\')>Создать</button>"+
 							"</div>";
+		document.getElementById('viz_content').insertAdjacentHTML('afterBegin',content);
+	}
 
+	function change_type(res,content,mode)
+	{
+			if (!mode)
+			{
+				content = "<p>Введите "+res+" ссылку на "+content+"</p>"+
+									"<input type='text' id='ref_type' value='internet' style='display:none'>"+
+									"<input type='text' id='ref'>";
+			}
+			else
+			{
+				content = "<p>Выберите файл</p>"+
+									"<input type='text' id='ref_type' value='self' style='display:none'>"+
+									"<input type='text' id='ref'>"+my_files;
+			}
 
-		document.getElementById('viz_content').insertAdjacentHTML('beforeEnd',content);
+			document.getElementById('ref_block').innerHTML = content;
+	}
+
+	function get_meta(ref)
+	{
+		if (ref.includes('https://youtube.com/embed/'))
+		{
+			return ref.substr(26);
+		}
+		else if(ref.includes('https://youtu.be/')) 
+	  {
+	  	return ref.substr(17);
+	  }
+	  else if(ref.includes('https://www.youtube.com/'))
+	  {
+
+	  	first = ref.indexOf('v=')+2;												// Ищем id видео
+	  	last	= ref.indexOf('&',ref.indexOf('v='));			// Проверяем, есть ли после id еще параметры?
+	  	
+	  	if (last == -1) 	last = ref.length - 1;						// Параметров нет - считываем все, что после "v="
+	  	else 							last = last-first;										// Параметры есть - находим последний символ id видео
+
+	  	return ref.substr(first,last);
+	  }
+	  else
+	  {
+	  	return false;
+	  }
 	}
 
 	function remove_element(elem)
 	{
+		if (typeof(elem) == 'object')
+		{		
+			id = elem.parentNode.parentNode.getAttribute('id');
+		}
+		else if (typeof(elem) == 'string') 		
+		{
+			id = elem;
+			if(document.getElementById('set') != null) document.getElementById('set').remove();
+		}
+				
 		
-		id = elem.parentNode.parentNode.getAttribute('id');
-		if (id.includes('note') || id.includes('image') || id.includes('video')) 
+
+		if (id.includes('note') || id.includes('image') || id.includes('video')  || id.includes('file')) 
 		{
 			indx = document.getElementById(id).style.zIndex;
 
 			if 			(id.includes('note')) {last_note_id--; type = 'note_';}
 			else if (id.includes('image')){last_image_id--;type = 'image_';}
 			else if (id.includes('video')){last_video_id--;type = 'video_';}
+			else if (id.includes('file')){last_video_id--; type = 'file_';}
 			DATA_ELEMENTS_ARRAY = DATA_ELEMENTS_ARRAY.filter(n => !n[0].includes(id));
 
 			for (i = 0; i < DATA_ELEMENTS_ARRAY.length; i++)
@@ -409,9 +344,10 @@ function get_meta(ref)
 	}
 </script>
 <script>
-let	last_note_id = 1;
-let	last_image_id = 1;
-let	last_video_id = 1;
+let	last_note_id = 0;
+let	last_image_id = 0;
+let	last_video_id = 0;
+let last_file_id = 0;
 	function show_data()
 	{
 		//DATA_ELEMENTS_ARRAY = JSON.parse(board_data);
@@ -419,32 +355,81 @@ let	last_video_id = 1;
 			build_element(i);
 		}
 	}
+
+/// !!! АККУРАТНО ОШШИБКИ (Т.к мы берем Высоту как высоту viz_content, а Ширину как ширину окна body)	
+	function to_pixel(val,flag)
+	{
+		if(flag == 0)
+		{
+			if(val.includes('%'))
+				{
+					return Math.floor((val.substr(0, val.length-1)*document.body.clientWidth))/100+'px';
+				}
+			else 									return val;
+		}
+		else
+		{
+			if(val.includes('%')) return Math.floor((val.substr(0, val.length-1)*document.getElementById('viz_content').offsetHeight))/100+'px';
+			else 									return val;
+		}
+	}
+	function to_percent(val,flag)
+	{
+		if(flag == 0)
+		{		
+			if(val.includes('px')) return Math.floor((100*val.substr(0, val.length-2)/document.body.clientWidth)) +'%';
+			else 									 return val;
+		}
+		else
+		{
+			if(val.includes('px')) return Math.floor((100*val.substr(0, val.length-2)/document.getElementById('viz_content').offsetHeight)) +'%';
+			else 									 return val;
+		}
+	}
 	function build_element(num)
 	{
 		//console.log(DATA_ELEMENTS_ARRAY[num]);
 		id 		= DATA_ELEMENTS_ARRAY[num][0];
-		x  		= 'margin-left:'			+ DATA_ELEMENTS_ARRAY[num][1] +'; ';
-		y  		= 'margin-top:' 			+ DATA_ELEMENTS_ARRAY[num][2] +'; ';
-		w  		= 'width:'						+ DATA_ELEMENTS_ARRAY[num][3] +'; ';
-		h  		= 'height:' 					+ DATA_ELEMENTS_ARRAY[num][4] +'; ';
-		z 		=	'z-index:'					+ DATA_ELEMENTS_ARRAY[num][5] +'; ';
-		c 		=	'background-color:'	+ DATA_ELEMENTS_ARRAY[num][6] +'; ';
+		x  		= 'margin-left:'			+ to_pixel(DATA_ELEMENTS_ARRAY[num][1],0) +'; '; console.log(DATA_ELEMENTS_ARRAY[num][1]);
+		y  		= 'margin-top:' 			+ to_pixel(DATA_ELEMENTS_ARRAY[num][2],1) +'; ';console.log(DATA_ELEMENTS_ARRAY[num][2]);
+		w  		= 'width:'						+ to_pixel(DATA_ELEMENTS_ARRAY[num][3],0) +'; ';
+		h  		= 'height:' 					+ to_pixel(DATA_ELEMENTS_ARRAY[num][4],1) +'; ';
+		z 		=	'z-index:'					+ to_pixel(DATA_ELEMENTS_ARRAY[num][5]) +'; ';
+		c 		=	'background-color:'	+ to_pixel(DATA_ELEMENTS_ARRAY[num][6]) +'; ';
 		name	= DATA_ELEMENTS_ARRAY[num][7];
 		meta	= DATA_ELEMENTS_ARRAY[num][8];
 
 		type = id.substr(0, id.indexOf('_'));
 		content = "<div id='"+id+"' class='_content my_"+type+"' style='"+x+y+w+h+z+c+"' oncontextmenu='show_settings(this);return false'>"+
-								"<div>"+
-									"<span  onmousedown=drag_me(this) style='"+c+"'>X</span>"+
+								"<div>";
+		if (type != 'file') 
+		{	//style='"+c+"'  <span  > </span>
+			content += "<img draggable='false' style='width:7%; margin-bottom:-1%; margin-left:-1%;' src='../../images/icons/pin.png' onmousedown='drag_me(this); return false;'>"+
 									"<input type='text' value='"+name+"' style='"+c+"'>"+
-									"<button onclick=remove_element(this); style='float:right;width:9%;'>C</button>"+
-								 "</div>";
+									"<button onclick=remove_element(this); style='float:right;width:9%;'>X</button>";
+		}
+		else
+		{
+
+			if (meta.includes('.doc'))				image = '../../images/icons/word.png';
+			else if (meta.includes('.xl')) 		image = '../../images/icons/excel.png';
+			else if (meta.includes('.accdb'))	image = '../../images/icons/access.png';
+			else if (meta.includes('.pp'))		image = '../../images/icons/powerpoint.png';
+			else if (meta.includes('.vs'))		image = '../../images/icons/visio.png';
+			else 															image = '../../images/icons/file.png';
+
+			content += "<img onmousedown='drag_me(this); return false' src='"+image+"' style='display:block;' draggable='false' alt='"+name+"'>"+
+  									"<input value='"+name+"'>";
+		}
+		content +=	"</div>";
 		if 			(id.includes('note')) {	content += "<textarea style='width:100%;height:100%;"+c+"'>"+meta+"</textarea></div>"; last_note_id = id.substr(id.indexOf('_')+1);}
 		else if (id.includes('image')){	content += "<img src='"+meta+"'></div>";	last_image_id = id.substr(id.indexOf('_')+1);}
-		else if (id.includes('video')){	content += "<iframe width='auto' height='auto' src='https://youtube.com/embed/"+meta+"' frameborder='0' allowfullscreen data-meta="+meta+"></iframe></div>";	last_video_id = id.substr(id.indexOf('_')+1);}
+		else if (id.includes('file')){  content += "<a href='"+meta+"' download>"+meta+"</a>"; last_file_id = id.substr(id.indexOf('_')+1);}
+		else if (id.includes('video')){
+			content += "<iframe width='auto' height='auto' src='"+meta+"' frameborder='0' allowfullscreen data-meta="+meta+"></iframe></div>";	last_video_id = id.substr(id.indexOf('_')+1);
+		}
 									
 		document.getElementById('viz_content').insertAdjacentHTML('beforeEnd',content);
-
 	}
 
 
@@ -454,10 +439,10 @@ let	last_video_id = 1;
 		{
 			id = DATA_ELEMENTS_ARRAY[i][0];
 			element = document.getElementById(id);
-			DATA_ELEMENTS_ARRAY[i][1] = element.style.marginLeft;
-			DATA_ELEMENTS_ARRAY[i][2] = element.style.marginTop;
-			DATA_ELEMENTS_ARRAY[i][3] = element.style.width;
-			DATA_ELEMENTS_ARRAY[i][4] = element.style.height;
+			DATA_ELEMENTS_ARRAY[i][1] = to_percent(element.style.marginLeft,0);
+			DATA_ELEMENTS_ARRAY[i][2] = to_percent(element.style.marginTop,1);
+			DATA_ELEMENTS_ARRAY[i][3] = to_percent(element.style.width,0);
+			DATA_ELEMENTS_ARRAY[i][4] = to_percent(element.style.height,1);
 			DATA_ELEMENTS_ARRAY[i][5] = element.style.zIndex;
 			DATA_ELEMENTS_ARRAY[i][6] = element.style.backgroundColor;
 			DATA_ELEMENTS_ARRAY[i][7] = element.children[0].children[1].value;
@@ -506,11 +491,20 @@ let	last_video_id = 1;
 		}
 		//
 		$str = queryMySQL("SELECT board FROM list WHERE id = '$id'")->fetch_array(MYSQLI_ASSOC)['board'];
+		if ($str == null || $str == '') 
+		{
+			$str = [];
+		}
 		echo "<script> let DATA_ELEMENTS_ARRAY = $str;</script>";
 
 			echo "<div id='visualization'>";
-
-			echo "<div id='tool_bar'><span style='display:inline-block'></span><span style='display:inline-block' onclick='create_new_note(1)'>Note  </span>  <span style='display:inline-block' onclick='create_new_image(1)' >Photo</span>  <span style='display:inline-block' onclick='create_new_video(1)'>  Video</span><span style='display:inline-block' onclick='create_new_file(1)'>  File</span></div>";
+//onclick='create_new_note(1)'
+			echo "<div id='tool_bar'>".
+						"<span style='display:inline-block' onclick=add_element('note')>Note</span>".
+						"<span style='display:inline-block' onclick=create_new_element('image')>   Photo</span>".
+						"<span style='display:inline-block' onclick=create_new_element('video')>  Video</span>".
+						"<span style='display:inline-block' onclick=create_new_element('file')>   File</span>".
+					"</div>";
 
 			echo "<div id='viz_content'>";
 			
@@ -522,24 +516,27 @@ let	last_video_id = 1;
 
 
   <script>
-  	let scroll_x, scroll_y = 0;
-  //document.getElementById('viz_content').addEventListener('scroll',scroll_viz_content); 
- function scroll_viz_content ()
- {
+  //	let scroll_x, scroll_y = 0;
 
- }
 	function set_parametrs(id)
 	{
 	//	document.getElementById(id).style.backgroundColor = document.getElementById('bkg_color').value;
-		for (i = 1; i <= 7; i++) 
+		if (!id.includes('file'))
 		{
-			if (document.getElementById('color_'+i).checked) 
-			{
-				document.getElementById(id).style.backgroundColor = document.getElementById('color_'+i).value;
-				document.getElementById(id).children[0].children[0].style.backgroundColor = document.getElementById('color_'+i).value;
-				document.getElementById(id).children[0].children[1].style.backgroundColor = document.getElementById('color_'+i).value;
-				document.getElementById(id).children[1].style.backgroundColor = document.getElementById('color_'+i).value;
-			}
+				for (i = 1; i <= 7; i++) 
+				{
+					if (document.getElementById('color_'+i).checked) 
+					{
+						document.getElementById(id).style.backgroundColor = document.getElementById('color_'+i).value;
+						document.getElementById(id).children[0].children[0].style.backgroundColor = document.getElementById('color_'+i).value;
+						document.getElementById(id).children[0].children[1].style.backgroundColor = document.getElementById('color_'+i).value;
+						document.getElementById(id).children[1].style.backgroundColor = document.getElementById('color_'+i).value;
+					}
+				}
+		}
+		else
+		{
+			document.getElementById(id).style.width = document.getElementById('div_size').value +'%';
 		}
 		if (id.includes('image')) document.getElementById(id).children[1].src = document.getElementById('ref').value; 
 		if (id.includes('video'))
@@ -556,7 +553,7 @@ let	last_video_id = 1;
 		  }
 		  else{
 				document.getElementById(id).children[1].src = address;
-				document.getElementById(id).children[1].dataset.meta = meta;
+				document.getElementById(id).children[1].dataset.meta = address;
 			}
 		}
 
@@ -566,11 +563,13 @@ let	last_video_id = 1;
 	}
 	function show_settings(element)
 	{
-
-		if(document.getElementById('ref_par')) document.getElementById('ref_par').remove();
+		if(document.getElementById('set') 		!= null) document.getElementById('set').remove();
+		if(document.getElementById('ref_par') != null) document.getElementById('ref_par').remove();
 		content = "<div id='set' style='position:fixed; z-index:1000; margin-left:400px; background-color:white;'>"+
-								"<div>Парметры<button onclick=remove_element(this); style='float:right'>X</button></div>"+
-								"Color:<br>"+
+								"<div>Парметры<button onclick=remove_element(this); style='float:right'>X</button></div>";
+				if (!element.id.includes('file')) 
+				{
+					content+="Color:<br>"+
 								"<div class='radio_color'>"+
 									"<input type='radio' name='a' id='color_1' value='rgb(282,189,53)' checked/>Y"+
 									"<input type='radio' name='a' id='color_2' value='rgb(0,64,64)'/>G"+
@@ -579,12 +578,24 @@ let	last_video_id = 1;
 									"<input type='radio' name='a' id='color_5' value='rgb(191,10,48)'/>R3"+
 									"<input type='radio' name='a' id='color_6' value='rgb(50, 85, 171)'/>W1"+
 									"<input type='radio' name='a' id='color_7' value='rgb(255, 252, 255)'/>W2"+
-
-								"</div>"+"Размер Шрифта:<br>"+
-								"<input id='font_size' type='range' min='8' max='24' step='2' value='16'>"+
+								"</div>";
+				}
+				else
+				{
+					content+="<a style='text-decoration:none; color:black;' href='"+element.children[1].innerHTML+"' download>Скачать Файл</a>"+
+										"<br><button onclick=remove_element(\'"+element.id+"\')>Удалить файл с доски</button>"+
+										"<br>Размер:<br>"+
+										"<input id='div_size' type='range' min='2' max='10' step='1' value='"+(element.style.width).slice(0, -1)+"'><br>";
+				}
+				content+="Размер Шрифта:<br>"+
+								"<input id='font_size' type='range' min='8' max='24' step='2' value='"+(element.style.fontSize).slice(0, -2)+"'>"+
 								"<div><button onclick=zUp(\'"+element.id+"\')>Выше</button><button onclick=zFront(\'"+element.id+"\')>Наверх</button></div>"+
 								"<div><button onclick=zDown(\'"+element.id+"\')>Ниже</button><button onclick=zEnd(\'"+element.id+"\')>Вниз</button></div>";
-if(!element.id.includes('note')) { content = content + "Ссылка:<br><input id='ref' type='text' value='"+element.children[1].src+"'>"}
+	if(!element.id.includes('note') && !element.id.includes('file')) 
+	{ 
+		content = content + "Ссылка:<br><input id='ref' type='text' value='"+element.children[1].src+"'>"
+	}
+
 		content = content +	"<button onclick=set_parametrs(\'"+element.id+"\')>APPLY</button>"+
 							"</div>";
 		document.getElementById('viz_content').insertAdjacentHTML('afterBegin',content);
