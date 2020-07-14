@@ -115,7 +115,7 @@
 			{
 				name = 'Input Name';
 				executor = 'WHO?';
-				description = 'What you Want To Do?';;
+				description = 'What you Want To Do?';
 				out = "<input type='text' name='task_num' 				value='"+(param_2+1)+"' style='display:none'	><br>"+
 							"<input id='last_elem_num_input' type='text' name='last_elem_num' value='"+(lastNum+1)+"' style='display:none'	><br>"+
 							"<input type='submit' name='create_task' value='Create' >"+
@@ -135,104 +135,6 @@
 			document.getElementById('list').insertAdjacentHTML('afterend',output);
 		}			
  </script>
-
- <script>
-/*let last;
-function create_empty_div(id,which)
-{
-	if (document.getElementById('div_conteiner') != null && last != id)
-	document.getElementById('div_conteiner').remove();
-
-	//container = "<div id='div_conteiner' style='width:50px; height:20px; background-color:green; color:black;'>--->  "+div_elem+"</div>";
-	
-	container = "<div id='div_conteiner' ondragenter='return dragEnter(event)' ondrop='return dragDrop(event)' ondragover='return dragOver(event)' style='height:20px; width:100px; background-color:white;'></div>";
-
-	if (document.getElementById('div_conteiner') == null) {
-		if (which == 0)
-		document.getElementById(id).childNodes[4].innerHTML = document.getElementById(id).childNodes[4].innerHTML + container;
-		else
-		document.getElementById(id).insertAdjacentHTML('beforeBegin',container);
- last = id;
- }
-}
-
-function delete_empty_div(id)
-{
-	document.getElementById('div_conteiner').remove();
-}
-//c_flag = 0;
-let first_func =  function() {
-
-		  //	document.getElementById('drag_me').remove();
-				if (check) {return 0};
-			//	document.getElementById('list').removeAttribute('onclick');
-		}
-let second_func = function(){
-					alert('done');
-				for(i=0;i < document.getElementsByClassName('list_slave').length;i++)
-					{document.getElementsByClassName('list_slave')[i].removeAttribute('onmouseover');}
-				
-					document.getElementById('form_but').removeAttribute('onmouseover');
-		  		document.getElementById('div_conteiner').remove();
-		  		check = 1;
-		  		change_position(0,0)
-				}		
-	check  = 0;
-	c_flag = 0;
-function change_position(element,id)
-{
-	c_flag = !c_flag;
-	if (c_flag) {
-	element.style.opacity = '0.2';
-	////////// АККУРАТНО, ПЛОХО ПЕРЕДАЕМ СКВОЗЬ ФУНКЦИИ
-		div_elem = "<div id='drag_me' style='height:20px; width:"+element.style.width+"px; background-color:green; position:absolute; display:inline-block; '>"+element.innerHTML+"</div>";
-	//document.body.insertAdjacentHTML('afterBegin',div_elem);
-			for(i=0;i < document.getElementsByClassName('list_slave').length;i++)
-		document.getElementsByClassName('list_slave')[i].setAttribute('onmouseover',document.getElementsByClassName('list_slave')[i].dataset.over);
-					 // 	element.style.opacity = '1';
-		create_empty_div(id,1);
-		check = 0;
-		//document.body.addEventListener('mousemove',first_func);
-
-		document.body.addEventListener('click',second_func);
- }else{
-		//document.body.removeEventListener('click', document.body.onclick, false);
-		document.body.removeEventListener('click', second_func, false);
-	}
-}
-
-
-function upload_values(x)
-{
-	alert(x);
-}
-function dragStart(ev) {
-   ev.dataTransfer.effectAllowed='move';
-   ev.dataTransfer.setData("Text", ev.target.getAttribute('id'));   
-   ev.dataTransfer.setDragImage(ev.target,100,100);
-   return true;
-}
-
-function dragEnter(ev) {
-   event.preventDefault();
-   return true;
-}
-function dragOver(ev) {
-    event.preventDefault();
-   // return true;
-}
-
-function dragDrop(ev,elem) {
-   var data = ev.dataTransfer.getData("Text");
-   ev.target.appendChild(document.getElementById(data));
-   ev.stopPropagation();
-		
-	upload_values(elem.dataset.position);
-   return false;
-}
-*/
-</script>
-
 	<?php
 
 		# !!! УПАДЕТ ЛОГИКА ПРИ ПРЕВЫШЕНИИ 10 ЗНАЧЕНИЙ
@@ -272,6 +174,7 @@ function dragDrop(ev,elem) {
 									$array_with_ref = [];
 									$list_master = "";
 									$list_masters = "";
+echo "<div class='hero'><div class='wrapper'> <ul class='task_list'>";		
 									if ($task_list->num_rows) 
 									{
 										$pj = $_GET['project_id'];
@@ -284,21 +187,26 @@ function dragDrop(ev,elem) {
 											$id 	= $task['id'];
 											if((int)substr($id,-1) != $i){	$list_count = $i-1;	} /// НЕ правильно делает, если не по порядку
 
-											$list_master="<div id='_$i' ".
+
+									$first_stack_name = $first_stack_name."<li id='_$i caption' class='list__caption'>$name</li>";
+									$first_stack = $first_stack."<li id='_$project_id".'_'."$i' class='list__cell js-cell'>";
+
+
+											$list_master = "<div id='_$i' ".
 																"class='list_master'".
 																"data-position='$i' ".
 																"data-name='$name' ".
 																"data-description='$case_descript' ".
 																"data-executor='$case_executor' ".
 																">$name".
-																"<img src='../../images/settings_icon.png' class='show_form_button' onclick="."show_form_2($i,'$pj','$id',1)>".
+																"<img src='$server_content_folder/settings_icon.png' class='show_form_button' onclick="."show_form_2($i,'$pj','$id',1)>".
 																"<a href='project.php?project_id=$id'>".
-																	"<img src='../../images/Entrance_icon.png' class='show_form_button'>".
+																	"<img src='$server_content_folder/Entrance_icon.png' class='show_form_button'>".
 																"</a><br>";
 											$list_masters = $list_masters.$list_master."</div>";
-											echo 		$list_master;
-											echo		 "<div>";
-															// Не пашет
+											//echo 		$list_master;
+											//echo		 "<div>";
+															
 															if ($first_time) 
 															{
 																$task = $sub_task_list->fetch_array(MYSQLI_ASSOC);
@@ -309,38 +217,43 @@ function dragDrop(ev,elem) {
 
 																$first_time = false;
 															}
+															$second_stack = '';
 																$sub_count = 0;
 																while($id == mb_substr($sub_id,0,strlen($id)-strlen($sub_id)))
 																{ 
 																	$sub_count++;
-																	echo "<div id='_$sub_id' ".
-																					"class='list_slave'".
+																	$second_stack = $second_stack."<div id='_$sub_id' ".
+																					"class='list__card list_slave' draggable='true' onmousedown=dragAndDrop(this) ".
+																				//	"class=''".
 																					"data-position='' ".
 																					"data-name='$sub_name' ".
 																					"data-description='$sub_case_descript' ".
 																					"data-executor='$sub_case_executor' ".
-																					"data-over = \"create_empty_div('_$sub_id',1)\" ".
-																		//			"draggable='true' ondragstart='return dragStart(event)' ".
-																		//		"onmouseover=\"create_empty_div('_$sub_id',1)\" ".
-																		//			"onclick=\"change_position(this,'_$sub_id');\"".
-																		//			"onmouseout=\"delete_empty_div('_$i')\" ".
+																			//		"data-over = \"create_empty_div('_$sub_id',1)\" ".
+																					"style='display:block;'".
 																					">$sub_name".																			
-																					"<img src='../../images/settings_icon.png' class='show_form_button' onclick="."show_form_2('$sub_id','$pj','$sub_id',1)>".
+																					"<a href='#'><img src='$server_content_folder/settings_icon.png' class='show_form_button' onclick="."show_form_2('$sub_id','$pj','$sub_id',1)></a>".
 																					"<a href='project.php?project_id=$sub_id'>".
-																						"<img src='../../images/Entrance_icon.png' class='show_form_button'>".
+																						"<img src='$server_content_folder/Entrance_icon.png' class='show_form_button'>".
 																					"</a>".
 																				"</div>";
+														 //<li id='_$sub_id' class='list__cell js-cell'></li>
+														//	 "<div id='_$sub_id' class='list__card' draggable='true' onmousedown=dragAndDrop(this)>$sub_name</div>";					
 																	$task = $sub_task_list->fetch_array(MYSQLI_ASSOC);
 																	$sub_id = $task['id'];
 																	$sub_name = $task['case_'];
 																	$sub_case_descript = $task['case_description'];
 																	$sub_case_executor = $task['executor'];
 																}
+												$first_stack = "$first_stack $second_stack <div id='LAST_$i' data-prevelem='$sub_id' class='list_slave list__card add_list_button' ><a href='javascript:void(0);' onclick=show_form_2(1,'$id',$sub_count,0)>+ Добавить </a></div></li>";				
 													//<button id='form_but'onclick="."show_form_2(1,'$id',$sub_count,0)".">Create Case</button>
-												echo "<div class='list_slave' ><a href='javascript:void(0);' onclick="."show_form_2(1,'$id',$sub_count,0)".">+ Добавить </a></div>";
-												echo"</div>";
-											echo"</div>"; //$pj".'_'."$i
+								//				echo "<div class='list_slave' ><a href='javascript:void(0);' onclick="."show_form_2(1,'$id',$sub_count,0)".">+ Добавить </a></div>";
+										//		echo"</div>";
+										//	echo"</div>"; //$pj".'_'."$i
 										}
+										echo "$first_stack_name $first_stack";
+echo "</ul> </div></div>";
+echo "\n<script>document.getElementById('LAST_".$task_list_length."').dataset.prevelem = document.getElementById('LAST_".$task_list_length."').parentNode.children[document.getElementById('LAST_".$task_list_length."').parentNode.children.length-2].id.substr(1); document.getElementById('LAST_".$task_list_length."').dataset.is_last='true';</script>\n";
 										$id = $_GET['project_id'];
 										//<button id='form_but' onclick="."show_form_2(1,'$id',$list_count,0)".">Create List</button>
 								echo "<div class='list_master'><a href='javascript:void(0);' onclick="."show_form_2(1,'$id',$list_count,0)".">Создать лист</a></div>";
@@ -356,6 +269,432 @@ function dragDrop(ev,elem) {
 				</form>";
 	*/
 	echo "</div></div>";
-
-
 ?>
+
+<script type="text/javascript">
+
+	function update_pos_values()
+	{
+		// Последний элемент группы : (Добавить)  является вспомогательным и его не нужно счиать,
+		// Поэтому при пересчете с него надо снять Класс карточки
+		document.querySelectorAll('.js-cell').forEach(cell => {
+				cell.children[cell.children.length-1].classList.remove('list__card');
+		});
+
+		
+		elem = document.getElementsByClassName('list__card');
+		pos = elem[0].dataset.poslen; 
+		//console.log(elem[0].id, pos);
+		for (i=1;i<elem.length; i++)
+		{
+			pos = Number(pos) + Number(elem[i].dataset.poslen);
+			
+			// На синхронизацию
+			//console.log(elem[i].id, pos); 
+		}
+
+		//  Восстанавливаем класс карточки после персчета
+		document.querySelectorAll('.js-cell').forEach(cell => {
+				cell.children[cell.children.length-1].classList.add('list__card');
+		});
+	}
+
+	before_elem = 0;
+	drag_elem = 0;
+	drop_is_finished = false;
+	transit = function ()
+	{	 
+		 before_elem = String(this.id);
+
+		 if (drop_is_finished == true) 
+		 {
+		 		if (before_elem != drag_elem) {
+
+		 			drag_elem = change_drag_element(before_elem,drag_elem);
+		 			document.getElementById(drag_elem).insertAdjacentHTML('beforeBegin','<div id=\'TECHNICAL_MOVE_DIV\'></div>');
+		 			document.getElementById('TECHNICAL_MOVE_DIV').append(document.getElementById(drag_elem));
+		 			document.getElementById(before_elem).insertAdjacentHTML('beforeBegin',document.getElementById('TECHNICAL_MOVE_DIV').innerHTML);
+			 		document.getElementById('TECHNICAL_MOVE_DIV').remove();
+
+			 		drop_is_finished = false;
+			 		remove_listener();
+			 		update_pos_values();
+			 	}
+		 }
+	}
+
+	function change_drag_element(before_elem_id,target_id)
+	{
+		parent_id = document.getElementById(before_elem_id).parentNode.id;
+ 		cell = document.getElementById(parent_id);
+ 		parent_id = parent_id+'_'; 
+
+		// Вычленяем последние цифры id (1_2_31)-> 31
+ 		x = Number((cell.children[0].id).substr(parent_id.length));
+ 		
+ 		//  Цикл поиска самого большого числа (-1 потому что последний элемет(Добавить) не надо считать)
+ 		for (i = 1; i < cell.children.length-1; i++)
+ 		{
+ 			// Находим самое большое число из всех
+ 			if (Number((cell.children[i].id).substr(parent_id.length)) > x) x = Number((cell.children[i].id).substr(parent_id.length))
+ 		}
+ 		x = x + 1;
+ 		
+ 		// Обрезаем Лишний (_) и меняем ссылку 
+ 		document.getElementById(String(target_id)).children[1].href = 'project.php?project_id='+(parent_id + x).substr(1);
+ 		//console.log(before_elem_id);
+ 		if (before_elem_id.includes('LAST') && document.getElementById(before_elem_id).dataset.is_last == 'true')
+ 		{
+ 			change_paper_elements(document.getElementById(before_elem_id).dataset.prevelem,target_id.substr(1),(parent_id + x).substr(1),document.getElementById(String(target_id)).dataset.poslen, 1);		
+ 		}else if (before_elem_id.includes('LAST')) 
+ 		{
+ 			change_paper_elements(document.getElementById(before_elem_id).dataset.prevelem,target_id.substr(1),(parent_id + x).substr(1),document.getElementById(String(target_id)).dataset.poslen);
+ 		} else
+ 		{
+ 		 change_paper_elements(before_elem_id.substr(1),target_id.substr(1),(parent_id + x).substr(1),document.getElementById(String(target_id)).dataset.poslen);
+ 		}
+ 		// Меняем id на +1 от самого большого найденного номера 
+ 		document.getElementById(String(target_id)).id = parent_id + x;
+
+ 		/// ОТДАЕМ ЗАПРОС AJAX на изменение id 
+ 		///  AJAX CODE
+
+ 		return  (parent_id + x);
+	}
+
+	function change_paper_elements(before_elem_id,target_id,new_target_id,len, mode = 0)
+	{
+		after_constant = 0;
+		if (mode)
+		{
+			after_constant = 1;
+		}
+
+		elements = document.getElementsByClassName('paper_content_div');
+			type = 0;
+		//	console.log(before_elem_id,target_id,new_target_id,len);
+			for (i = 0; i < elements.length; i++)
+			{
+					if(elements[i].dataset.parent == target_id)
+					{
+						last_i = i;
+						elements[i].dataset.parent = new_target_id;
+
+						if (document.getElementById('TECHNICAL_MOVE_DIV') == null)
+							document.getElementById('look').insertAdjacentHTML('afterBegin','<div id=\'TECHNICAL_MOVE_DIV\'></div>');
+
+						document.getElementById('TECHNICAL_MOVE_DIV').append(elements[i]);
+						if (type != 2) type = 1;
+						continue; 
+					}
+					else if	(elements[i].dataset.parent == before_elem_id)
+					{
+						if (type != 1) type = 2;
+					}
+			}
+
+			if (type == 2)
+			{
+					for (i=last_i; i > 0; i--)
+					{
+							num = Number(Number(elements[i].id) + Number(len));
+							elements[i].title =	'Элемент: '+ num;
+							elements[i].setAttribute('oncontextmenu', 'menu(\''+ num +'\'); return false');
+							elements[i].id 		= num;
+
+							if (elements[i].dataset.parent == before_elem_id)
+							{
+								for(j=0; j < document.getElementById('TECHNICAL_MOVE_DIV').children.length; j++)
+								{
+									document.getElementById('TECHNICAL_MOVE_DIV').children[j].id = Number(elements[i].id) - len + j + after_constant;// + 1;
+									document.getElementById('TECHNICAL_MOVE_DIV').children[j].title = 'Элемент: '+ Number(Number(elements[i].id)- len + j + after_constant);// + 1);
+									document.getElementById('TECHNICAL_MOVE_DIV').children[j].setAttribute('oncontextmenu', 'menu(\''+Number(Number(elements[i].id) - len + j + after_constant) +'\'); return false');
+								}
+
+								if (after_constant) 
+								{
+									num = Number(Number(elements[i].id) - Number(len));
+									elements[i].title =	'Элемент: '+ num;
+									elements[i].setAttribute('oncontextmenu', 'menu(\''+ num +'\'); return false');
+									elements[i].id 		= num;
+									elements[i].insertAdjacentHTML('afterend',document.getElementById('TECHNICAL_MOVE_DIV').innerHTML);
+								}else
+								{
+										elements[i].insertAdjacentHTML('beforeBegin',document.getElementById('TECHNICAL_MOVE_DIV').innerHTML);
+								}
+								
+								document.getElementById('TECHNICAL_MOVE_DIV').remove();
+								break;
+							}
+					}
+			}else if(type == 1)
+			{
+				for ( i = last_i + 1; i < elements.length; i++)
+				{
+					if (elements[i].dataset.parent == before_elem_id) 
+					{
+						for(j=0; j < document.getElementById('TECHNICAL_MOVE_DIV').children.length; j++)
+						{
+							document.getElementById('TECHNICAL_MOVE_DIV').children[j].id = Number(elements[i].id) - len + j + after_constant;// - 1;
+							document.getElementById('TECHNICAL_MOVE_DIV').children[j].title = 'Элемент: '+ Number(Number(elements[i].id) - len + j + after_constant);
+							document.getElementById('TECHNICAL_MOVE_DIV').children[j].setAttribute('oncontextmenu', 'menu(\''+Number(Number(elements[i].id) - len + j + after_constant) +'\'); return false');
+						}
+						
+						if (after_constant) 
+						{
+							elements[i].insertAdjacentHTML('afterend',document.getElementById('TECHNICAL_MOVE_DIV').innerHTML);
+							elements[i].title =	'Элемент: '+ Number(elements[i].id - len);
+							elements[i].setAttribute('oncontextmenu', 'menu(\''+ Number(elements[i].id - len)+'\'); return false');
+							elements[i].id 		= Number(elements[i].id - len);	
+						}
+						else
+						{
+							elements[i].insertAdjacentHTML('beforeBegin',document.getElementById('TECHNICAL_MOVE_DIV').innerHTML);
+						}
+
+						document.getElementById('TECHNICAL_MOVE_DIV').remove();
+						break;
+					}
+
+					elements[i].title =	'Элемент: '+ Number(elements[i].id - len);
+					elements[i].setAttribute('oncontextmenu', 'menu(\''+ Number(elements[i].id - len)+'\'); return false');
+					elements[i].id 		= Number(elements[i].id - len);					
+				}
+			}
+	}
+
+	function add_listener()
+	{
+			x = document.getElementsByClassName('list__card');
+			for (i=0; i< x.length; i++)
+			{
+				x[i].addEventListener('mousemove',transit);
+			}
+	}
+
+	function remove_listener()
+	{
+			x = document.getElementsByClassName('list__card');
+			for (i=0; i< x.length; i++)
+			{
+				x[i].removeEventListener('mousemove',transit);
+			}
+	}
+	function update_last__group_elem()
+	{
+		// Функция необходима для смены мест в paper
+		// При переносе первого элемента какого-либо столбца элемент LAST, хранящий id того элемента,
+		// Теряет свою актуальность, поэтому в data элементам LAST мы всегда присваиваем 1ое значение
+		// Следующего стобца. 
+			elements = document.getElementsByClassName('add_list_button');
+
+			for (i=0; i < elements.length; i++)
+			{
+				if (i < elements.length-1 && elements[i+1].parentNode.children.length > 1) 
+					elements[i].dataset.prevelem = elements[i+1].parentNode.children[0].id.substr(1);
+				else
+				{
+					// Если у послеующей группы нет 1го элемента, то мы иттерируем назад по группам
+					// в поисках 1й группы, в которой есть хоть какой-то элемент помимо LAST
+					// При нахождении такой группы, находим в ней предпоследний элемент (потому что LAST последний) 
+					// Далее устанавливаем data нашему элементу.
+					for (j=i; j > 0; j--)
+					{
+						if (elements[j].parentNode.children.length > 1) 
+						{
+							elements[i].dataset.prevelem = elements[j].parentNode.children[elements[j].parentNode.children.length-2].id.substr(1);
+							break;
+						}
+					}	
+				}
+			}
+	}
+
+	function dragAndDrop(elem)
+	{
+		 add_listener();
+		 update_last__group_elem();
+		elem.classList.add('js-card');
+    card = document.querySelector('.js-card');
+    cells = document.querySelectorAll('.js-cell');
+
+    const dragStart = function () {
+        setTimeout(() => {
+            this.classList.add('hide');
+        }, 0);
+    };
+    
+    const dragEnd = function () {
+        this.classList.remove('hide');
+        card.removeEventListener('dragstart', dragStart);
+    		card.removeEventListener('dragend', dragEnd);
+    	cells.forEach(cell => {
+        cell.removeEventListener('dragover', dragOver);
+        cell.removeEventListener('dragenter', dragEnter);
+        cell.removeEventListener('dragleave', dragLeave);
+        cell.removeEventListener('drop', dragDrop);
+    	});
+    	drag_elem = elem.id;
+    	drop_is_finished = true;
+    };
+
+    const dragOver = function (evt) {
+        evt.preventDefault();
+    };
+
+    const dragEnter = function (evt) {
+        evt.preventDefault();
+        this.classList.add('hovered');
+    };
+
+    const dragLeave = function () {
+        this.classList.remove('hovered');
+    };
+    const dragDrop = function () {
+        card.classList.remove('js-card')
+        this.classList.remove('hovered');
+    };
+    cells.forEach(cell => {
+        cell.addEventListener('dragover', dragOver);
+        cell.addEventListener('dragenter', dragEnter);
+        cell.addEventListener('dragleave', dragLeave);
+        cell.addEventListener('drop', dragDrop);
+    });
+  card.addEventListener('dragstart', dragStart);
+  card.addEventListener('dragend', dragEnd);
+};
+</script>
+<style>
+.wrapper *, *::before, *::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.wrapper {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: normal;
+    font-weight: 400;
+}
+
+.hero {
+    width: 100%;
+    height: 90%;
+    min-height: 100vh;
+}
+
+.wrapper {
+    width: 1500px;
+    margin: 0 auto;
+		height:100%;
+    overflow-y: scroll;
+}
+
+.task_list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.list__cell {
+   /* flex-basis: calc(25% - 40px); */
+    min-height: 15px;
+    margin: 20px;
+    list-style: none;
+    box-shadow: 0px 0px 7px 5px rgba(0,0,0,0.2);
+    overflow: hidden;
+    background-color:#f0f2f5;;
+
+    width: 160px;
+    height: auto;
+}
+
+.list__caption {
+    width: 160px;
+    margin: 0 20px;
+    list-style: none;
+    font-weight: bold;
+    color: #0747a6;
+}
+
+.list__card {
+	color:black;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    text-align: center;
+   /*  min-height: 100%; */
+    cursor: all-scroll;
+}
+
+.list__card-header {
+    text-transform: lowercase;
+    font-weight: bold;
+    padding: 12px 20px;
+    background-color: #0747a6;
+    color: white;
+}
+
+.list__card-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eff5ff;
+    flex-grow: 1;
+    padding: 12px 20px;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.hovered {
+    background-color: #d1d8e2;
+}
+
+.hide {
+    display: none;
+}
+</style>
+
+<script>/*	
+	function change_pos_values(elem,id,start,finish)
+	{
+		last_group_elem_s = Number(elem.children[elem.children.length-1].dataset.startpos);
+		last_group_elem_f = Number(elem.children[elem.children.length-1].dataset.finishpos);
+		cards = document.getElementsByClassName('list__card');
+		//console.log(cards[1].dataset.startpos, cards[1].dataset.finishpos);
+		if (elem.children[0].dataset.startpos > start){
+				for (i = 0; i < cards.length; i++)
+				{
+					if (cards[i].dataset.startpos > start && cards[i].dataset.finishpos <= last_group_elem_f) 
+					{
+						if (cards[i].dataset.startpos != start && cards[i].dataset.finishpos != finish) 
+						{
+							cards[i].dataset.startpos = cards[i].dataset.startpos - Number(finish - start + 1);
+							cards[i].dataset.finishpos= cards[i].dataset.finishpos - Number(finish - start + 1);
+						}
+					}
+				}
+			document.getElementById(id).dataset.startpos = last_group_elem_s;
+			document.getElementById(id).dataset.finishpos =last_group_elem_s + Number(finish - start);
+		}
+		else
+		{
+			for (i = 0; i < cards.length; i++)
+				{
+					if (cards[i].dataset.startpos > last_group_elem_f && cards[i].dataset.finishpos < start) 
+					{
+						if (cards[i].dataset.startpos != start && cards[i].dataset.finishpos != finish) 
+						{
+							cards[i].dataset.startpos = Number(cards[i].dataset.startpos) + Number(finish - start + 1);
+							cards[i].dataset.finishpos= Number(cards[i].dataset.finishpos) + Number(finish - start + 1);
+						}
+					}
+				}
+			document.getElementById(id).dataset.startpos = 	last_group_elem_s + 1;
+			document.getElementById(id).dataset.finishpos = last_group_elem_s + 1 + Number(finish - start);
+		}
+	}
+*/
+</script>

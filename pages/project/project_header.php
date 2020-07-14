@@ -21,71 +21,112 @@
 	}
 	else $header_output = $project_name; 
 
-////////////	
+
+function is_office_format($type)
+{
+		if (strpos($type,'msword') !== false || strpos($type,'vnd.openxmlformats-officedocument.') !== false || strpos($type,'vnd.ms-word.') !== false ) return true;
+		else if (strpos($type,'msexcel') !== false || strpos($type,'vnd.ms-excel.') !== false) return true;
+		else if (strpos($type,'mspowerpoint') !== false || strpos($type,'vnd.ms-powerpoint.') !== false) return true;
+		else if (strpos($type,'msaccess') !== false) return true;
+		else if (strpos($type,'vnd.ms-office.calx') !== false || strpos($type,'x-winhelp') !== false || strpos($type,'msproject') !== false || strpos($type,'vnd.ms-officetheme') !== false || strpos($type,'mswrite') !== false) return true;
+		else return false;
+}
+////////////
 $AVAILABLE_FILE_TYPES = [
-													 'image/',
-													 'audio/',
-													 'text/plain',
-													 'application/',
-													 'video/',
-													 'model/'
+													 ['image/','image/'],
+													 ['audio/', 'multimedia/'],
+													 ['text/plain','another/'],
+													 ['application/','another/'],
+													 ['video/','multimedia/'],
+													 ['model/','another/']
 													];
 $success = false;
 
-  if (isset($_FILES['my_file']['name']))
+  if (isset($_FILES['my_files']['name']))
   {
-   if ($_FILES['my_file']['error'] === UPLOAD_ERR_OK)
-   {
-			$data_type =  $_FILES['my_file']['type'];
-		   
-		  for ($i=0; $i < count($AVAILABLE_FILE_TYPES); $i++)
-		  {
-		   	if (strpos($data_type,$AVAILABLE_FILE_TYPES[$i]) !== false) 
-		   	{
+	  foreach ($_FILES['my_files']['error'] as $key => $error)
+	  {
+	  	$success = false;
+	  	if ($error === UPLOAD_ERR_OK)
+	   	{
+				$data_type =  $_FILES['my_files']['type'][$key];
+			   
+			  for ($i=0; $i < count($AVAILABLE_FILE_TYPES); $i++)
+			  {
+			   	if (strpos($data_type,$AVAILABLE_FILE_TYPES[$i][0]) !== false) 
+			   	{
+			   		$fdr = $AVAILABLE_FILE_TYPES[$i][1];
+			   		if(is_office_format($data_type)) $fdr = 'office/';
 
-		   		$success = true;
-		   		break;
+			   		$success = true;
+			   		break;
+			   	}
 		   	}
+		  
+			  if ($success) 
+			  {
+			  	//$destiation_dir = 'https://www.space.com/storage/project_'.$project_id.'/'. $_FILES['my_files']['name'][$key]; // директория для размещения файла'
+			  	echo "<script>console.log('".$_FILES['my_files']['name'][$key].",".$_FILES['my_files']['tmp_name'][$key].",".$_FILES['my_files']['type'][$key]."');</script>";
+					$destiation_dir = '../../storage/project_'.$project_id.'/'.$fdr.iconv('utf-8','windows-1251',$_FILES['my_files']['name'][$key]);
+					if (move_uploaded_file($_FILES['my_files']['tmp_name'][$key], $destiation_dir))  //перемещение в желаемую директорию
+					$file_upload_info = "'".'Файл успешно загружен'."'"; //оповещаем пользователя об успешной загрузке файла
+					else
+					$file_upload_info = "'".'Файл Не удалось загрузить'."'"; 
+			  }
+			  else
+			  {
+			  	$file_upload_info = "'".'Файл не соответсвует доступному типу'."'";
+			  }
+		 	}
+	   	else
+	   	{
+	   		$file_upload_info = "'Technical_ERROR:".$_FILES['my_files']['error'][$key]."'";
 	   	}
-	  
-		  if ($success) 
-		  {
-		  	$destiation_dir ='../../images/tmp/' . $_FILES['my_file']['name']; // директория для размещения файла
-				if (move_uploaded_file($_FILES['my_file']['tmp_name'], $destiation_dir))  //перемещение в желаемую директорию
-				$file_upload_info = "'".'Файл успешно загружен'."'"; //оповещаем пользователя об успешной загрузке файла
-				else
-				$file_upload_info = "'".'Файл Не удалось загрузить'."'"; 
-		  }
-		  else
-		  {
-		  	$file_upload_info = "'".'Файл не соответсвует доступному типу'."'";
-		  }
-   }
-   else
-   {
-   	$file_upload_info = "'Technical_ERROR:".$_FILES['my_file']['error']."'";
-   }
+	 	}
   }else{ $file_upload_info = false; }
 
 
-  $current_dir = '../../images/tmp/';
+  $server_project_folder = 'https://www.space.com/storage/project_'.$project_id;
+  $server_content_folder = '../../content';
+  echo "<script>server_project_folder = '$server_project_folder'; server_content_folder = '$server_content_folder'</script>";
+  $current_dir = '../../storage/project_'.$project_id;
   $dir = opendir($current_dir);
 
   //echo "<p>Каталог загрузки: $current_dir</p>";
   //echo '<p>Содержимое каталога:</p><ul>';
+echo "<script>let my_files = [];</script>";
   $content = "<ul>";
-  while ($file = readdir($dir))
+  $count = 0;
+  while ($folder = readdir($dir))
   {
-  	if ($file !== '.' && $file !== '..')
+  	if ($folder !== '.' && $folder !== '..')
   	{
-  		$content = $content."<li onclick=document.getElementById('ref').value='$file'; >$file</li>";
+  		$file_list = "<ul id='$folder'>";
+  		$tmp_dir = opendir($current_dir.'/'.$folder);
+  		while ($file = readdir($tmp_dir))
+  		{
+  			if ($file !== '.' && $file !== '..')
+  			{
+  				$file_list = $file_list."<li onclick=document.getElementById('ref').value=this.innerHTML>$file</li>";
+  			}
+  		}
+  		closedir($tmp_dir);
+  		$file_list = $file_list."</ul>";
+  		 echo "<script>my_files.push(\"".$file_list."\");</script>";
+  		$content = $content."<li onclick=open_folder($count,'$folder')>$folder</li>";
+  		$count++;
   	}
-   
   }
   $content = $content.'</ul>';
   closedir($dir);
-  echo "<script>let my_files = \"".$content."\";</script>";
+  echo "<script>my_files.push(\"".$content."\");</script>";
 
+  echo "<script>".
+  			"function open_folder(i,dir){".
+  			"document.getElementById('ref_dir').value = dir+'/';".
+  			"document.getElementById('ref_block').querySelector('ul').remove();".
+  			"document.getElementById('ref_block').insertAdjacentHTML('beforeEnd',my_files[i]);".
+ 			 "}</script>";
 //////////////
 	echo "<header>".
 	"<span style='text-align: left;'><a href='project.php?project_id=$project_id' style='text-decoration:none; color:white;'>$header_output</a></span>".
@@ -110,7 +151,8 @@ $success = false;
 						"<button onclick=getElementById('xxx').remove() >CLOSE</button>"+
 						"<h3>Загрузите файлы</h3>"+
 						"<input type='hidden' name='MAX_FILE_SIZE' value='104857600'>"+
-						"		File:<br><input type='file' name='my_file' size='14'><br>"+
+						"		Files:<br>"+
+						"<input type='file' name='my_files[]' multiple><br>"+
 						"		<input type='submit' value='Load'>"+
 						"</form>";
 

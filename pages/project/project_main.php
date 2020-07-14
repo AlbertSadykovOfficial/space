@@ -44,6 +44,7 @@
 			$case_name				 	= stripslashes($_POST['case_name']);
 			$case_description 	= stripslashes($_POST['case_description']);
 			$case_executor 			= stripslashes($_POST['case_executor']);
+			$case_board					=	null;
 			
 			
 			if (strlen($id) == 1) 	$last_number_of_this_list = (int)$_POST['last_elem_num']-1;
@@ -60,7 +61,7 @@
 				queryMySQL("INSERT INTO report VALUES('$case_num',$last_number_of_this_list,'$case_name')");
 			}
 		
-			queryMySQL("INSERT INTO list VALUES('$case_num','$case_name','$case_description','$case_executor')");
+			queryMySQL("INSERT INTO list VALUES('$case_num','$case_name','$case_description','$case_executor','$case_board')");
 			$_POST['create_task'] = null;
 			$_POST['last_elem_num'] = null;
 		}

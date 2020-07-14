@@ -56,6 +56,7 @@
 
   function upload_values($arr_len){
   		// Воссоздаем все удаленные div в нужном порядке.
+      document.getElementById('content_ifr').contentWindow.document.body.innerHTML = document.getElementById('paper_content_span').innerHTML;
   		rebuild_deleted_divs($arr_len);
 
   		let pos_nums = '';
@@ -72,19 +73,20 @@
   			pos_nums = position[0];
   		}else{
 ///////
-  		for (let i = 1; i <= $arr_len; i++) 
-  		{
-  			save_this = document.getElementById('content_ifr').contentWindow.document.getElementById(position[i-1]).innerHTML;
+    		for (let i = 1; i <= $arr_len; i++) 
+    		{
+    			save_this = document.getElementById('content_ifr').contentWindow.document.getElementById(position[i-1]).innerHTML;
 
-  			if (save_this.length != conclusion_len[i-1]) 
-  			{
-  				//console.log(i, conclusion_len[i-1], save_this.length);
-  				form += "<textarea style='display:none' name=\""+position[i-1]+"\">"+save_this+"</textarea>\n";
-  				pos_nums += (position[i-1].toString()+',');
-  			}
-  		}
-  	}
-  		pos_nums.slice(-1);
+    			if (save_this.length != conclusion_len[i-1]) 
+    			{
+    				//console.log(i, conclusion_len[i-1], save_this.length);
+    				form += "<textarea style='display:none' name=\""+position[i-1]+"\">"+save_this+"</textarea>\n";
+    				pos_nums += (position[i-1].toString()+',');
+    			}
+    		}
+      pos_nums.slice(-1);
+  	 }
+  		
   		form +="Вы измените элементы с id:<br>"+
   					"<input type='text' name='conclusion' value='"+pos_nums+"'>\n"+
   					"<input type='submit' value='Upload'>\n"+
@@ -94,7 +96,7 @@
 				form = 'Вы ничего не изменили';
 			}
 			if (document.getElementsByClassName('description_window')[0] == null){
-			document.getElementsByTagName('main')[0].insertAdjacentHTML('afterBegin',"<div class='description_window'><div id='here_please'></div></div>"); 		//style='background:gray; height:20px'
+			document.getElementsByTagName('main')[0].insertAdjacentHTML('afterBegin',"<div class='description_window'><div id='here_please'></div></div>"); 	
 			}
   		document.getElementById('here_please').innerHTML = 
 	  		"<button onclick=\"(function(){document.getElementsByClassName('description_window')[0].remove(); document.getElementById('paper').style.filter = '';})();\">X</button>"
@@ -126,9 +128,10 @@
 
   <script>
      function change_div(id){
+        document.getElementsByClassName('menu')[0].remove();
         document.getElementById('content_maker').style.display = 'block';
         document.getElementById('content_maker').children[0].children[0].dataset.id = id;
-        document.getElementById('content_ifr').contentWindow.document.body.innerHTML = document.getElementById(id).innerHTML;
+        document.getElementById('content_ifr').contentWindow.document.body.innerHTML = document.getElementById(id).children[0].innerHTML;
       }
       function hide_this(element)
       {
@@ -136,10 +139,122 @@
       }
       function apply(element){
         document.getElementById('content_maker').style.display = 'none';
-        document.getElementById(element.dataset.id).innerHTML = document.getElementById('content_ifr').contentWindow.document.body.innerHTML;
+        document.getElementById(element.dataset.id).children[0].innerHTML = document.getElementById('content_ifr').contentWindow.document.body.innerHTML;
       }
+      function menu(id)
+      {
+        content = "<div class='menu'>"+
+                  "<button onclick=\"document.getElementsByClassName(\'menu\')[0].remove()\">X</button>"+
+                    "<ul>"+
+                      "<li onclick=change_div(\'"+id+"\');>Изменить</li>"+
+                      "<li onclick=show_files(\'"+id+"\');>Файлы</li>"+
+                    "</ul>"+
+                  "</div>";
+        document.getElementById('paper').insertAdjacentHTML('afterBegin',content);
+        document.getElementsByClassName('menu')[0].style = 'position:absolute; background-color: gray; margin-left:'+event.pageX+'px; '+'margin-top:'+event.pageY+'px';
+      }
+      function show_files(id)
+      {
+        content = 'Файлы элемента:'+
+                  '<button onclick=\"document.getElementsByClassName(\'menu\')[0].remove()\">X</button>'+
+                  '<div></div>';
+        data = document.getElementById(id).getElementsByTagName('datatag');
+       for (i=0; i<data.length; i++)
+       {
+          content+= "<div>"+
+                        "<img src='"+get_src_image(data[i].children[1].innerHTML)+"' style='width:7%'>"+data[i].children[0].innerHTML+
+                        "<a href='"+data[i].children[1].innerHTML+"'>Скачать</a>"+
+                        "<button onclick='remove_file(this,"+id+","+i+");'>Удалить</button>"+
+                    "</div>";
+       }
+       content += '<button onclick=add_file('+id+')>Добавить</button>';
+        document.getElementsByClassName('menu')[0].innerHTML = content;
+      }
+      function add_file(id)
+      {
+        create_new_element('file','paper');
+        document.getElementById('ref_par').children[2].remove();
+        document.getElementById('ref_par').insertAdjacentHTML('beforeEnd',"<button onclick='create_href("+id+")'>ADD</button>");
+      }
+      function create_href(id)
+      {
+        ref_type = document.getElementById('ref_type').value;
+        name = document.getElementById('ref').value;
+        if      (ref_type == 'internet')    meta  = name
+        else if (ref_type == 'self')        meta  = server_project_folder+'/' + document.getElementById('ref_dir').value + name;
+
+        document.getElementById(id).insertAdjacentHTML('beforeEnd',"<datatag style='display:none'><dataname>"+name+"</dataname><datahref>"+meta+'</datahref></datatag>');
+        document.getElementsByClassName('menu')[0].children[1].insertAdjacentHTML('afterBegin',"<div><img src='"+get_src_image(name)+"' style='width:7%'>"+document.getElementById('ref').value+"<a href='"+meta+"' download>Cкачать</a></div>");
+        document.getElementById('ref_par').remove();
+      }
+
+      function remove_file(element,id,num)
+      {
+        element.parentNode.remove();
+        document.getElementById(id).getElementsByTagName('datatag')[num].remove();
+      }
+
   </script>
 
+  <style>
+    .hide
+    {
+      display: none;
+    }
+  </style>
+  <script>
+    
+    function change_paper_mode(element)
+    {
+      mode_now = Number(element.dataset.mode);
+      
+      if (mode_now == 0) 
+      {
+        element.parentNode.children[1].dataset.pos = 1;
+        element.dataset.mode = '1';
+        element.innerHTML =  "Посмотреть весь отчет";
+        element.parentNode.children[1].classList.remove('hide');
+
+        for (i = 0; i < document.getElementsByClassName('paper_content_div').length; i++)
+            document.getElementsByClassName('paper_content_div')[i].classList.add('hide');
+
+         document.getElementsByClassName('paper_content_div')[0].classList.remove('hide');
+
+      }
+      else
+      {
+         element.dataset.mode = '0';
+         element.innerHTML =  "По элементно";
+         element.parentNode.children[1].classList.add('hide');
+
+         for (i = 0; i < document.getElementsByClassName('paper_content_div').length; i++)
+            document.getElementsByClassName('paper_content_div')[i].classList.remove('hide');
+      }
+    }
+
+    function prev_page(element)
+    {
+      if (element.dataset.pos > 1)
+      {
+        document.getElementById(element.dataset.pos).classList.add('hide');
+        element.dataset.pos = Number(element.dataset.pos) - 1;
+
+        document.getElementById(element.dataset.pos).classList.remove('hide');
+      }
+    }
+    function next_page(element)
+    {
+
+      if (element.dataset.pos < document.getElementsByClassName('paper_content_div').length)
+      {
+        document.getElementById(element.dataset.pos).classList.add('hide');
+        element.dataset.pos = Number(element.dataset.pos) + 1;
+
+         document.getElementById(element.dataset.pos).classList.remove('hide');
+      }
+    }    
+
+  </script>
 <?php
 
 // header("Access-Control-Allow-Origin: *"); /////////////////////
@@ -148,11 +263,11 @@
 		
 		echo "<div id='paper' style='overflow-y:scroll;'>";
 
-
-	   $task_list = queryMySQL("SELECT * FROM report WHERE id LIKE '$task_id%' ORDER BY position");
+    $task_id = $_GET['project_id'];
+	  $task_list = queryMySQL("SELECT * FROM report WHERE id LIKE '$task_id%' ORDER BY position");
 		$task_list_length = $task_list->num_rows;
 
-    echo "<div id='content_maker' style='position:fixed; width:60%; margin-left: 20%; margin-top:5%; overflow-x:hidden;'>".
+    echo "<div id='content_maker' style='display:none; position:fixed; width:60%; margin-left: 20%; margin-top:5%; overflow-x:hidden;'>".
             "<div style='background-color: #f0f0f0; border: 0.3px solid rgba(0,0,0,0.2)'>".
               "Редактирование Элемента".
               "<button onclick=apply(this)>Apply</button><button style='float:right' onclick=hide_this(this)>X</button>".
@@ -160,13 +275,22 @@
             "<textarea  id='content' cols='60' rows='10'>\n</textarea>\n".
           "</div>";
 
-		echo "<span style='display:inline-block;  width:60%; height: 200%; margin-bottom: 100px; margin-left: 20%; background-color : whitesmoke;box-shadow: 0 14px 28px rgba(0,0,0,0.6), 0 10px 10px rgba(0,0,0,0.6);margin-top: 2%;'>\n";
+    echo "<div>".
+              "<span style='display:block; margin-left:20%; margin-top: 1%; text-align:center; background-color:white; width:60%;'>".
+                "<button onclick='change_paper_mode(this)' data-mode='0'>По элементно</button>".
+                "<div class='hide'>".
+                  "<button onclick='prev_page(this.parentNode)'><<Назад</button>".
+                  "<button onclick='next_page(this.parentNode)'>Вперед>></button>".
+                "</div>".
+              "</span>".
+        "</div>";      
+
+		echo "<span id='paper_content_span' style='display:inline-block;  width:60%; height: auto; margin-bottom: 100px; margin-left: 20%; background-color : whitesmoke; box-shadow: 0 14px 28px rgba(0,0,0,0.6), 0 10px 10px rgba(0,0,0,0.6); margin-top:1%'>\n";
 
     //<!--<form method='POST' action='project.php?project_id=$task_id'>-->";
 		
 		$conclusions_len = [];
-		
-		echo "<div  id=\"look\" style='font-size:20px; padding-top:50px; padding-left:80px; padding-right:50px;'>"; // 
+		echo "<div  id=\"look\" style='font-size:20px; padding-top:50px; padding-left:80px; padding-right:50px; padding-bottom:70px;'>"; // 
 			if ($task_list_length) 
 			{
 				$task_id = $_GET['project_id'].'_'; /// (1_2)->(1_2_)
@@ -174,14 +298,34 @@
 				for ($i=1; $i <= $task_list_length; $i++) 
 				{ 
 					$task = $task_list->fetch_array(MYSQLI_ASSOC);
-					$output = $task['conclusion'];
-					$id_now = $task['position']; 
+					$output = str_replace("\"", "'", $task['conclusion']);
+					$id_now = $task['position'];
+          $elem_id =  $task['id'];
+         
+          if ($i == 1) 
+          { 
+            $last_id = $id_now;
+            $prev_group_id = substr($elem_id,0,5);
+           // echo "<script>document.getElementById('_$prev_group_id').dataset.startpos =$id_now;</script>"; 
+          }else
+          {
+            if ($prev_group_id !== substr($elem_id,0,5)) 
+            { 
+            //echo "<script>document.getElementById('_$prev_group_id').dataset.finishpos =".($id_now-1).";</script>"; 
+              echo "<script>document.getElementById('_$prev_group_id').dataset.poslen = ".($id_now-$last_id).";</script>"; 
+              $prev_group_id = substr($elem_id,0,5);
+              $last_id = $id_now;
+            }
+          }
+
+
 
 					$conclusions_len[] = strlen($output);
           //style='border-top: 1px solid transparent; border-image: linear-gradient(to right, black 0%, transparent 50%, transparent  100%); border-image-slice: 1;'
-					echo "<div id='$id_now' title='Элемент: $id_now' oncontextmenu=\"change_div('$id_now'); return false; \">$output</div>\n"; //
+					echo "<div id='$id_now' data-parent='$prev_group_id' class='paper_content_div' title='Элемент: $id_now' oncontextmenu=\"menu('$id_now'); return false; \">$output</div>\n"; //
 					array_push($position_array,$id_now);
 				}
+      echo "<script>document.getElementById('_$prev_group_id').dataset.poslen =".($id_now-$last_id).";</script>";
 		echo "</div>";
 				$pos_arr_len = count($position_array)-1;
 				$last_number_of_this_list = $position_array[$pos_arr_len];
@@ -192,21 +336,35 @@
 				$a = 0;
 				$last_number_of_this_list = 0;
 			}
+     // echo "<script>console.log("+$task_list_length+","+$output+","+$id_now+");</script>";
 
 		echo "<!--</form>-->\n</span><br>\n";//</div><input type='submit' value='Upload'>\n
 // Заполняем массив длины каждого conclusion		
 		$task_id = $_GET['project_id'];
 		echo "<script> let conclusion_len = [];\n position = []; task_id = '$task_id';\n";
-		for ($i=0; $i < $task_list_length ; $i++) { 
+		for ($i=0; $i < $task_list_length ; $i++) 
+    { 
 			echo "conclusion_len.push(".$conclusions_len[$i].");\n".
 					 "position.push(".$position_array[$i].");";
 		}
-		echo "</script>";
+		echo "</script>\n";
+
+// Очистка мусора (кода выводили данные нужно было юзать скрипт для присвоения значений, это порадило много ненужных тегов) 
+    echo '<script>'.
+            ' elements = document.getElementById(\'look\').getElementsByTagName(\'script\').length;'.
+          'for(i=0; i < elements; i++){'.
+          'document.getElementById(\'look\').getElementsByTagName(\'script\')[0].remove();'.
+          '}</script>';
+/*
 				if ($task_list_length == 1) 
 				{
-					echo "<script> document.getElementById('content_ifr').contentWindow.document.body = $output;</script>";
+         
+					echo "<script>if(document.getElementById('content_ifr') != null){ ".
+                "document.getElementById('content_ifr').contentWindow.document.body = \"$output\";\n".
+                //"}else{ console.log(typeof document.getElementById('content_ifr').contentWindow.document.body);\n".
+                "}</script>\n";
 				}
-
+*/
 echo "<script>".
 		//	"document.getElementById('firstNum').value = $a;".
 			"let lastNum = $last_number_of_this_list;".
@@ -258,11 +416,10 @@ echo	"</script>"
 				<div class='list_master_small'>
 
 				<p style="text-align: center;"> Level Structure:</p>
-				<?php 
+				<?php
 				echo "$list_masters"; 
         echo "<button onclick='upload_form($project_id)'>Upload files</button>";
         ?>
-
 				</div>
 				<style>
 					.list_master_small div
