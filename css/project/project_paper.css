@@ -1,0 +1,79 @@
+#paper
+{
+	display: inline-block;
+	width:100%;
+	height: 100%; 
+	background-color: rgb(77,77,77); 
+	float: left;
+	overflow-y: scroll;
+}
+#bar
+{
+	position: absolute; 
+	height:100%; 
+	width:20%; 
+	background-color: gray; 
+	float:left; 
+	z-index: 1001;
+}
+.page_navigator > span
+{
+	display:block; 
+	width: 60%;
+	margin-left: 20%; 
+	margin-top: 1%; 
+	text-align: center; 
+	background-color: white; 
+
+}
+.page-orientation
+{
+	text-align: center;
+}
+.list_master_small div
+{
+	margin-left: 5%;
+	width: 90%;
+}
+
+.list_master_small img
+{
+	float: right	
+}
+.list_master_small p
+{
+	text-align: center;
+}
+#content_maker
+{ 
+	position:fixed; 
+	width:60%; 
+	margin-left: 20%; 
+	margin-top:5%; 
+	overflow-x:hidden;
+}
+/* > - ТОЛЬКО 1Й УРОВЕНЬ ВЛОЖЕННОСТИ*/
+#content_maker > div
+{
+	background-color: #f0f0f0; 
+	border: 0.3px solid rgba(0,0,0,0.2)
+}
+#paper_content_span
+{
+	display:inline-block;
+	width:60%;
+	height: auto;
+	margin-top:1%;
+	margin-bottom: 100px;
+	margin-left: 20%;
+	background-color : whitesmoke;
+	box-shadow: 0 14px 28px rgba(0,0,0,0.6), 0 10px 10px rgba(0,0,0,0.6);
+}
+#look 
+{
+	font-size:20px;
+	padding-top:50px; 
+	padding-left:80px; 
+	padding-right:50px; 
+	padding-bottom:70px;
+}
