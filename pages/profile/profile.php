@@ -1,4 +1,5 @@
 <?php 
+
 		require_once('../templates/header.php');
 
 		if (!$loggedin) 
@@ -34,5 +35,5 @@
 		}
  ?>
 		</div>
- 	</body>
+ 	</body> 
 </html>
