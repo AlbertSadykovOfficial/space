@@ -6,7 +6,8 @@
 	$project_id   		= $_SESSION['executable_project_id'];
 	
 	$project_id_get == '';
-	for ($i=0; $i < count($project_id) ; $i++) { 
+	for ($i=0; $i < count($project_id) ; $i++) 
+	{ 
 		$project_id_get	+= (string)$_GET['project_id'][$i]; 	
 	}
 
@@ -17,7 +18,10 @@
 
 	if(!(queryMySQL("SELECT * FROM users_projects WHERE user_id=$user_id AND project_id=$project_id")->num_rows))
 	{
-		$header_output = "$project_name <form style='display:inline-block;' method = 'POST' action = 'join_the_project.php'><input type='submit' name='project_num' value='JOIN_#$project_id'></form>";
+		$header_output = "$project_name".
+											"<form style='display:inline-block;' method = 'POST' action = 'join_the_project.php'>".
+												"<input type='submit' name='project_num' value='JOIN_#$project_id'>".
+											"</form>";
 	}
 	else $header_output = $project_name; 
 
@@ -141,21 +145,3 @@ echo "<script>let my_files = [];</script>";
 	}
 	
 ?>
-
-
-<script>
-	
-	function upload_form(id)
-	{
-		form = "<form method='POST'  action = 'project.php?project_id="+id+"' style='position:fixed; z-index:1002; text-align:center; background-color:white; width:auto; height:auto; margin-left:35%;' id='xxx' enctype='multipart/form-data'>"+
-						"<button onclick=getElementById('xxx').remove() >CLOSE</button>"+
-						"<h3>Загрузите файлы</h3>"+
-						"<input type='hidden' name='MAX_FILE_SIZE' value='104857600'>"+
-						"		Files:<br>"+
-						"<input type='file' name='my_files[]' multiple><br>"+
-						"		<input type='submit' value='Load'>"+
-						"</form>";
-
-		document.getElementById('paper').insertAdjacentHTML('afterBegin',form);
-	}
-</script>

@@ -94,7 +94,6 @@
 					$pos = '';
 				}
 			}
-			//queryMySQL("UPDATE report SET conclusion = '$txt' WHERE id ='$task_id'");
 		}
 
 

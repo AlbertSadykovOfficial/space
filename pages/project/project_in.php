@@ -6,7 +6,7 @@
 			die('ИЗЫДИ, незарегестрированный');
 		}
 		
-		echo "<div class='main'><h3>Вход в комнату</h3>";
+echo "<div class='main'><h3>Вход в комнату</h3>";
 
 		if (isset($_GET['project_id'])) 
 		{
@@ -28,7 +28,7 @@
 						$_SESSION['executable_project_password']= $project_password;
 
 						echo 'Access Allowed...<br>';	
-						die("<a href='project.php?project_id=$id'>Open Project</a>");
+						die("<a id='go_into_project' style='display:none' href='project.php?project_id=$id'>Open Project</a><script>document.getElementById('go_into_project').click();</script>");
 
 					}else{
 						echo '<br>Password Incorrect<br>';
@@ -36,7 +36,6 @@
 				}
 		
 		}
-// ПОМЕНЯТЬ ЗАПРОС GET (уже не надо)
 echo <<<_END
 			<form method = "POST" action = "project_in.php?project_id=$id">$error
 				<span class = 'fieldname'>Project Password</span>

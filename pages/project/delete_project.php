@@ -1,12 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>SPACE</title>
+	<link rel="stylesheet" href="../../css/create_project.css">
+</head>
+<body>
+
 <?php
-	require_once('../templates/header.php');
-echo <<<_END
-		<div class = 'main'><h3>Процесс удаления проекта</h3>
-_END;
-		if (!$loggedin) 
-		{
-			die('You are Unregistred');
-		}
+	session_start();
+
+			require_once('../templates/functions.php');
+			if (isset($_SESSION['user'])) 
+			{
+				$user 		= $_SESSION['user'];
+				$loggedin =	TRUE;
+			}
+			else
+			{
+				die('Вы не зарегистрированы');
+			}
+
+echo "<div class = 'main'><h3>Процесс удаления проекта</h3>";
 
 		if (isset($_GET['project_id']))
 		{
@@ -19,9 +34,7 @@ _END;
 					if($user_id !== $admin_id)
 					{
 						die("Access Denied<br>You must have administrator Roots<br><a href='../profile/profile.php?view_id=$user_id'>BACK to profile page</a>");
-					}
-					
-					if ($user_id === $admin_id && $project_password === $project_password_by_user) 
+					}else if ($user_id === $admin_id && $project_password === $project_password_by_user) 
 					{
 						// Не работает
 							$pj_id = $project_id.'_';
@@ -37,10 +50,10 @@ _END;
 
 							die("Successful<br><a href='../profile/profile.php?view_id=$user_id'>BACK to profile page</a>");
 					}
-					else if($project_password_by_user!='' && $project_password != $project_password_by_user){
+					else if($project_password_by_user != '' && $project_password != $project_password_by_user)
+					{
 						die("Access Denied<br><a href='../profile/profile.php?view_id=$user_id'>BACK to profile page</a>");
 					}
-		
 		}
 			
 echo <<<_END

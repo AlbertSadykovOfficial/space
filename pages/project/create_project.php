@@ -1,32 +1,47 @@
-<?php 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>SPACE</title>
+	<link rel="stylesheet" href="../../css/create_project.css">
+</head>
+<body>
 
-	require_once('../templates/header.php');
-echo <<<_END
-		<div class = 'main'><h3>Зполните поля:</h3>
-_END;
-		if (!$loggedin) 
-		{
+		<?php 
+			session_start();
+
+			require_once('../templates/functions.php');
+			if (isset($_SESSION['user'])) 
+			{
+				$user 		= $_SESSION['user'];
+				$loggedin =	TRUE;
+			}
+			else
+			{
 				die('Вы не зарегистрированы');
-		}
-		
-		if (isset($_POST['project_name']) && isset($_POST['project_password'])) 
-		{
-			$project_name			=	stripslashes($_POST['project_name']);
-			$project_password = stripslashes($_POST['project_password']);
-			$user_id					= $_SESSION['user_id'];
-				queryMySQL("INSERT INTO projects VALUES(NULL,'$project_name','$project_password',$user_id)");
-				
-				$project_id	=	queryMySQL("SELECT * FROM projects WHERE name='$project_name' AND pass='$project_password' AND admin=$user_id")->fetch_array(MYSQLI_ASSOC)['id'];
+			}
 
-				echo("");
-				queryMySQL("INSERT INTO users_projects VALUES($user_id, $project_id)");
+echo "<div class = 'main'><h3>Зполните поля:</h3>";
+			
 				
-				die("User id=$user_id Created Project id=$project_id ...Done <br>.<a href='../profile/profile.php?view_id=$user_id'>Home page</a><br><br>");
-		}
-		else
-		{
-			echo "Вы не заполнили поля";
-		}
+				if (isset($_POST['project_name']) && isset($_POST['project_password'])) 
+				{
+					$project_name			=	stripslashes($_POST['project_name']);
+					$project_password = stripslashes($_POST['project_password']);
+					$user_id					= $_SESSION['user_id'];
+						queryMySQL("INSERT INTO projects VALUES(NULL,'$project_name','$project_password',$user_id)");
+						
+						$project_id	=	queryMySQL("SELECT * FROM projects WHERE name='$project_name' AND pass='$project_password' AND admin=$user_id")->fetch_array(MYSQLI_ASSOC)['id'];
+
+						echo("");
+						queryMySQL("INSERT INTO users_projects VALUES($user_id, $project_id)");
+						
+						die("User id=$user_id Created Project id=$project_id ...Done <br>.<a href='../profile/profile.php?view_id=$user_id'>Home page</a><br><br>");
+				}
+				else
+				{
+					echo "Вы не заполнили поля";
+				}
 
 echo <<<_END
 			<form method = "POST" action = "create_project.php">$error
