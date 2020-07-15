@@ -48,8 +48,8 @@
 
 		function showProfile($user_id)
 		{
-			if (file_exists("../../images/$user_id.jpg")) //$user
-					echo "<img src = '../../images/$user_id.jpg' align = 'middle'>";	
+			if (file_exists("../../storage/user_photo/$user_id.jpg")) //$user
+					echo "<img src = '../../storage/user_photo/$user_id.jpg' align = 'middle'>";	
 		
 			//$result = queryMySQL("SELECT * FROM users_projects WHERE user_id = '$user'");
 
@@ -78,7 +78,7 @@
 					{ 
 						echo "$out";
 						$out = $row['project_id'];
-						echo " <a href='../project/project_in.php?project_id=$out'>(войти)</a> <a href='../project/delete_project.php?project_id=$out'>(удалить)</a><br>";
+						echo "<button onclick=enter_to_project('$out')>(войти)</button> <a href='../project/delete_project.php?project_id=$out'>(удалить)</a><br>";
 					}
 			}
 		}
@@ -111,8 +111,7 @@
 		{
 			queryMySQL("DELETE FROM users_projects WHERE project_id='$project_id' AND user_id='$user_id'");
 		}
-
-
+		
 		function create_regexp($level)
 		{	
 			return "\"^".substr(str_repeat("[0-9]*_",$level),0,-1)."$\"";
