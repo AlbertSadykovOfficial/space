@@ -1,0 +1,31 @@
+body 
+{
+width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  
+  background: url(../content/background.jpg) 100% 100%  no-repeat;
+  background-size: cover; /* Масштабируем фон */
+	font-family: Tahoma;
+}
+p{
+		padding: 0;
+		margin: 0;
+}
+a
+{
+	text-decoration : none;
+	color 					: rgb(110, 110, 110);
+}
+
+.main
+{	
+	height: 100%;	
+
+}
+.main > div
+{
+		margin-top:12%;
+		color: black;
+}

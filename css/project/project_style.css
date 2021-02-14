@@ -1,10 +1,40 @@
+#canvas_div
+{
+	position: absolute;
+	margin:0 auto;
+	width: 1000px;
+	height: 500px;
+}
+#canvas_div > canvas
+{
+	width: 100%;
+	height: 100%;
+	background-color: white;
+}
+.full_screen
+{
+	position: fixed;
+	width: 100% !important;
+	height: 100% !important;
+	left: 0;
+	top: 0;
+	background-color: wheat;
+	overflow-y:scroll;
+	z-index:9999;
+}
+.full_screen >div
+{
+	vertical-align: top;
+}
+
 html
 {
+	font-family: Tahoma;
 	height:100%;
 }
 header{
 	height: 30px;
-	background-color: black; 
+	background-color: rgb(33,33,33); 
 	color: white;
 }
 header span{
@@ -23,9 +53,14 @@ body
 {
 	height:100%
 }
+ul
+{
+	margin: 0;
+	padding: 0;
+}
 .hide
 {
-  display: none;
+  display: none !important;
 }
 .hovered {
   background-color: #d1d8e2;
@@ -42,8 +77,14 @@ body
 .project_switch_panel{
 	display: inline-block; 
 	position: absolute; 
-	width: 5%; 
+	width: 2%; 
 	height: 100%; 
-	background-color: black; 
-	opacity: 0.3;
+	background-color: rgb(40,39,39); 
+}
+
+.menu input[type='file']
+{
+	background-color: none;
+	border:2px solid rgb(160,160,160);
+	border-radius: 5px;
 }

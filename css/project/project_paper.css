@@ -3,7 +3,7 @@
 	display: inline-block;
 	width:100%;
 	height: 100%; 
-	background-color: rgb(77,77,77); 
+	background-color: rgb(61,61,61); 
 	float: left;
 	overflow-y: scroll;
 }
@@ -12,30 +12,136 @@
 	position: absolute; 
 	height:100%; 
 	width:20%; 
-	background-color: gray; 
 	float:left; 
+	background-color: rgb(39,39,39); 
+	color: rgb(192,180,180);
 	z-index: 1001;
+	transition: 0s;
+}
+#bar .add_button
+{
+	width: 80% !important;
+	margin:10%;
+	margin-bottom: 5% !important;
+}
+.bar_button
+{
+	background: none;
+	border:none;
+	padding:0;
+	z-index: 3000;
+}
+.bar_button > img
+{
+		width: 100%;
+}
+#look 
+{
+	font-size:100%;
+	padding-top:10%; 
+	padding-left:12%; 
+	padding-right:5%; 
+	padding-bottom:5%;
+	background-color: rgb(211, 202, 180);
+	color: rgb(33,33,33);
+}
+
+#target
+{
+	height: 90%;
+}
+#target .page-orientation
+{
+	height: 20%;
+}
+#target .list_master_small
+{
+	height: 50%;
+}
+#target .list_master_small > p
+{
+	max-height: 20%;
+}
+#target .list_master_small > div
+{
+	max-height: 80%;
+	overflow-y: scroll;
+}
+#target .list_master > a
+{
+	color: rgb(205,193,193);
+}
+
+.paper_content_div
+{
+	border-radius: 5px;
+}
+.paper_content_div:hover
+{
+	background-color: rgba(0,0,0,0.1);
+	background-color: rgba(255,186,53,0.6);
+}
+.page_navigator
+{
+	height: 12%;
 }
 .page_navigator > span
 {
 	display:block; 
 	width: 60%;
 	margin-left: 20%; 
-	margin-top: 1%; 
+	margin-top: 1px; 
+	margin-bottom: 1px; 
 	text-align: center; 
-	background-color: white; 
+	background-color: rgb(51,51,51); 
+	border-radius: 10px;
+	height: 100%;
 
+}
+.page_navigator button
+{
+	border: none;
+	border-radius: 5px;
+	background-color: rgb(39,39,39);
+	color: rgb(205,193,193);
+	height: 40%;
+	width: 15%;
+	padding: 2px 5px;
+	
+}
+.page_navigator span > button
+{
+	margin: 1% 0%;
+	width: 30%;
 }
 .page-orientation
 {
 	text-align: center;
+	background-color: rgb(33,33,33);
+	border-radius:10px;
+	margin: 0 5% 2% 5%;
+	padding: 2%;
 }
-.list_master_small div
+.list_master_small
 {
+	border-radius:10px;
+	background-color: rgb(33,33,33);
+		margin: 5% 5% 0 5%;
+}
+.list_master_small .list_master
+{
+	font-size: 70%;
+	border-radius: 5px;
+	background-color: rgb(23,23,23);
+	color: rgb(205,193,193);
 	margin-left: 5%;
+	padding: 2%;
 	width: 90%;
 }
-
+.list_master_small span
+{
+		color: rgb(205,193,193);
+}
 .list_master_small img
 {
 	float: right	
@@ -48,15 +154,17 @@
 { 
 	position:fixed; 
 	width:60%; 
+	height: 100%;
 	margin-left: 20%; 
-	margin-top:5%; 
+	margin-top: -30px;
 	overflow-x:hidden;
 }
+
 /* > - ТОЛЬКО 1Й УРОВЕНЬ ВЛОЖЕННОСТИ*/
 #content_maker > div
 {
 	background-color: #f0f0f0; 
-	border: 0.3px solid rgba(0,0,0,0.2)
+	border: 0.3px solid rgba(0,0,0,0.2);
 }
 #paper_content_span
 {
@@ -67,13 +175,109 @@
 	margin-bottom: 100px;
 	margin-left: 20%;
 	background-color : whitesmoke;
-	box-shadow: 0 14px 28px rgba(0,0,0,0.6), 0 10px 10px rgba(0,0,0,0.6);
+	box-shadow: 0 3px 3px rgba(0,0,0,0.6), 0 3px 3px rgba(0,0,0,0.6);
 }
-#look 
+.menu
 {
-	font-size:20px;
-	padding-top:50px; 
-	padding-left:80px; 
-	padding-right:50px; 
-	padding-bottom:70px;
+	position:absolute;
+	background-color: rgb(33,33,33);
+	color: rgb(205,193,193);
+	border-radius: 5px;
+	z-index: 1001;
 }
+.menu > span
+{
+	display: inline-block;
+	width: 85%;
+}
+.menu > button
+{
+	width: 8%;
+	margin-right: 5%;
+}
+.menu > button > img
+{
+	width: 100%;
+}
+.menu > ul
+{
+	list-style: none;
+	margin-bottom: 20px;
+	text-align: center;
+}
+#show_structure_btn
+{
+	background-color: rgb(33,33,33);
+}
+#show_structure_btn > button
+{
+	width: 10%;
+}
+#show_structure_btn > input
+{
+	width: 80%;
+	background: none;
+	border: 2px solid black;
+	color: rgb(255,186,53);
+}
+.structure_menu > div
+{
+	cursor: pointer;
+}
+.structure_menu > div:hover
+{
+	background-color: rgba(0,0,0,0.5)
+}
+.file_manager
+{
+	width: 25%;
+}
+.file_manager > span
+{
+	width: 92%;
+	text-align: center;
+}
+.file_manager .close_button
+{
+	width: 4%;
+	margin-top: 3%;
+	margin-right: 3%;
+}
+.file_manager a
+{
+	text-decoration: none;
+	color: rgb(205,193,193);
+}
+.file_manager > div
+{
+	margin-top: 2%;
+	padding: 0 3% 0% 5%; 
+}
+.file_manager > div img
+{
+	width:7%;
+}
+.file_manager > div > button
+{
+	width: 6%;
+	padding: 0;
+	background:none;
+	border:none;
+	float:right;
+}
+.file_manager > div > button > img
+{
+	width: 100%;
+}
+.add_button
+{
+	border:none;
+	width: 34% !important;
+	margin-left: 33%;
+	margin-bottom: 2% !important;
+	border-radius:10px;
+	background-color: rgb(255,186,53) !important;
+	color: rgb(33,33,33);
+	float:none !important;
+}
+

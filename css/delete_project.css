@@ -1,0 +1,67 @@
+body
+{
+	margin: 0;
+	padding: 0;
+	width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  	background: url(../content/delete_background.jpg) 100% 40%  no-repeat;
+  background-size: cover; /* ÐÐ°ÑÑÑÐ°Ð±Ð¸ÑÑÐµÐ¼ ÑÐ¾Ð½ */
+	font-family: Tahoma;
+}
+p{
+		padding: 0;
+		margin: 0;
+}
+a
+{
+	text-decoration : none;
+	color 					: rgb(60, 87, 111);
+}
+header
+{
+	height: 5%;
+	background-color: rgb(33,33,33);
+}
+header img
+{
+	margin-left: 48%;
+	height: 100%;
+}
+.hide
+{
+  display: none;
+}
+.main
+{	
+	height: 95%;	
+
+}
+.main > div
+{
+	margin-left: 35%;
+	margin-top:14%;
+}
+
+.delete_window
+{
+	border: 2px solid black;
+	text-align: center;
+		-moz-box-shadow:0 0 30px rgb(255,0,0);
+		-webkit-box-shadow:0 0 30px rgb(255,0,0);
+		box-shadow:0 0 30px rgb(255,0,0);
+}
+
+.delete_window p
+{
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.submit_button:hover
+{
+			-moz-box-shadow:0 0 10px rgb(255,0,0);
+		-webkit-box-shadow:0 0 0px rgb(255,0,0);
+		box-shadow:0 0 10px rgb(255,0,0);
+}

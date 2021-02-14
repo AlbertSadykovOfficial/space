@@ -1,4 +1,329 @@
+.menu
+{
+	position:absolute;
+	background-color: rgb(33,33,33);
+	color: rgb(205,193,193);
+	border-radius: 5px;
+	z-index: 1001;
+}
+.menu > span
+{
+	display: inline-block;
+	width: 85%;
+}
+.menu > button
+{
+	width: 8%;
+}
+.menu > button > img
+{
+	width: 100%;
+}
+.menu > ul
+{
+	list-style: none;
+	margin-bottom: 20px;
+	text-align: center;
+}
+.menu .add_button
+{
+	width: 40%;
+}
+.menu .close_button
+{
+	border: none;
+	background:none;
+	width: 10%;
+}
+
+body
+{
+width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  	background: url(../content/background.jpg) 100% 100%  no-repeat;
+  background-size: cover; /* ÐÐ°ÑÑÑÐ°Ð±Ð¸ÑÑÐµÐ¼ ÑÐ¾Ð½ */
+	font-family: Tahoma;
+}
+p{
+		padding: 0;
+		margin: 0;
+}
+a
+{
+	text-decoration : none;
+	color 					: rgb(110, 110, 110);
+}
+header
+{
+	height: 5%;
+	background-color: rgb(33,33,33);;
+}
+header img
+{
+	margin-left: 48%;
+	height: 100%;
+}
+.enter_window
+{
+
+}
+.executable
+{
+	background-color: rgb(255,186,53) !important;
+	color: black !important;
+}
+
+.add_button
+{
+	border:none;
+	width: 34%;
+	margin-bottom: 2%;
+	border-radius:10px;
+	background-color: rgb(255,186,53);
+	color: rgb(33,33,33);
+	float:none;
+}
+
+.hide
+{
+	display: none;
+}
+
 .main
 {
-text-align: center;
+	text-align: center;
+	height: 95%;
+}
+.main_indent
+{
+	height: 8%;
+}
+
+.user_block
+{
+	display: block;
+	float: left;
+	width: 16%;
+	min-height: 85%;
+	height: 85%;
+	margin-left:10%;
+
+	background-color: rgb(22,22,22);
+	color:   rgb(156,156,156);
+	border-radius: 20px;
+}
+._id
+{
+	color:rgb(155,233,220);
+}
+.photo
+{
+	height: 30%;
+}
+.photo img
+{
+	padding: 2% 5%;
+	height: 80%;
+	border-radius: 5px;
+}
+.user_info_string
+{
+	height: 7%;
+}
+.user_info_string img
+{
+	height: 50%;
+		float: left;
+	margin-left: 10%;
+}
+.user_info_string span
+{
+	float: left;
+	margin-left: 10%;
+}
+
+textarea
+{
+	width: 90%;
+	background-color: rgb(22,22,22);
+	color: rgb(172,172,172);
+	border-radius: 10px;
+	border: 2px solid rgb(255,186,53);
+	resize: vertical;
+	max-height: 100px;	
+	font-size: 60%;
+}
+
+.msg
+{
+	resize: none;
+	height: 13%;
+}
+.projects
+{
+	max-height: 75%;
+	overflow-y: scroll;
+}
+.projects_block
+{
+	display: block;
+	float: left;
+	width: 50%;
+	height: 85%;
+	margin-left: 8%;
+
+	background-color: rgb(22,22,22);
+	border-radius: 20px;
+	color:  rgb(155,155,155);
+}
+.projects_block p
+{
+	margin: 2%;
+}
+.my_projects , .not_my_projects
+{
+	display: block;
+	float: left;
+	width: 45%;
+	height: 100%;
+}
+.my_projects > p
+{
+	height: 4%;
+}
+
+.not_my_projects
+{
+	float: right;
+}
+
+.search
+{
+	margin: 3% auto;
+	width: 80%;
+	height: 5%;
+	background-color: rgb(19,19,19);
+	border:2px solid rgb(255,186,53);
+	border-radius: 10px;
+}
+.search img
+{
+	height: 100%;
+	display: block;
+	float: left;
+}
+.search input
+{
+	height: 90%;
+	max-height: 90%;
+	width: 80%;
+	border: none;
+	background-color: rgb(19,19,19);
+	color: rgb(156,156,156);
+}
+.projects
+{
+	margin-top: 5%;
+	margin-bottom: 5%;
+}
+.project_row
+{
+	margin: 0 auto;
+	width: 80%;
+	height: auto;
+	background-color: rgb(19,19,19);
+	color: rgb(156,156,156);
+	border-radius: 5px;
+	text-align: left;
+}
+.project_row > p
+{
+	display: inline-block;
+	width: 70%;
+	padding-left: 8%;
+}
+.project_row > div
+{
+	display: inline-block;
+	width: 14%;
+}
+.project_row > div > img, .project_row > div > a
+{
+	display: inline-block;
+	width: 50%;
+}
+.project_row > div > a > img
+{
+	width: 100%;
+}
+
+/*            Windows 						*/
+
+.profile_window
+{
+	position:fixed; 
+	margin-top: 5%;
+	margin-left: 35%;
+
+	text-align: center;
+	border: 6px solid black;
+	border-radius: 30px;
+}
+
+.profile_window textarea
+{
+	width: 66%;
+	height: 100%;
+}
+
+.profile_window p
+{
+	padding-top: 3%;
+	padding-bottom: 3%; 
+}
+
+.user_info_window
+{
+	position:fixed; 
+	margin-top: 5%;
+	margin-left: 35%;
+
+	text-align: center;
+}
+
+.menu_controls
+{
+	width: 50%;
+	height: max-content;
+	margin: 0 auto;
+	padding: 0 !important;
+}
+.menu_controls button
+{
+	width: 50%;
+	height: 100%;
+	background-color:rgba(0,0,0,0);
+	border:1px solid black;
+	color: rgb(193,193,193);
+	font-size: 80%;
+	margin-top:0 !important;
+}
+
+.menu_controls button:nth-child(1)
+{
+	background-color: rgb(22,22,22); 
+	border-top-left-radius: 6px; 
+	border-bottom-left-radius: 6px;
+}
+.menu_controls button:nth-child(2)
+{
+	background-color: rgba(0,0,0,0);
+	border-top-right-radius: 6px; 
+	border-bottom-right-radius: 6px;
+}
+#menu_references
+{
+	padding: 0 !important;
 }

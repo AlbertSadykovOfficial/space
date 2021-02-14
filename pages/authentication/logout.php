@@ -1,16 +1,17 @@
 <?php 
-	require_once('../templates/header.php');
+    require_once('../templates/header.php');
 
-		if (isset($_SESSION['user'])) 
-		{
-			destroySession();
-				echo 	"<div class = 'main'>Вы вышли из аккаунта<br>".
-							 	"Пожалуйста, <a href='../../index.php'>Нажмите сюда</a>, чтобы обновить страницу.";
-		}
-		else
-				echo 	"<div class='main'><br>".
-								"Невозможно завершить сеанс, вы не авторизованы";
+    if (isset($_SESSION['user'])) 
+    {
+        destroySession();
+
+    }
+     echo    "<div class = 'main'>".
+                "<a href='login.php'>Вход</a>";
 ?>
- 	<br><br></div>
- </body>
+        <br><br></div>
+    </body>
+<script type="text/javascript">
+    document.getElementsByTagName('a')[0].click();
+</script>
 </html>

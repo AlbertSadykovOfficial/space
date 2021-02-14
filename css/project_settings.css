@@ -1,0 +1,197 @@
+body
+{
+	background-color: rgb(33,33,33);
+	color: rgb(233,233,233);
+	text-align: center;
+	font-family: Tahoma;
+}
+header
+{
+	height: 5%;
+	background-color: rgb(33,33,33);
+	margin: 0 auto;
+}
+header img
+{
+	width: 3%;
+}
+input
+{
+	background:none;
+	color: rgb(233,233,233);
+	border: 2px solid black;
+	border-radius: 10px;
+	margin-top:0.2%;
+	margin-bottom:0.2%;
+	text-align: center;
+}
+a
+{
+	text-decoration: none;
+}
+li
+{
+	cursor: pointer;
+}
+
+.user_menu a
+{
+	color: rgb(233,233,233);
+}
+
+/*        CLOSE BUTTON    */
+.close_button
+{
+	width: 3%;
+	padding: 0;
+	background:none;
+	border:none;
+	margin-right: 1%;
+}
+.close_button img
+{
+	width: 100%;
+}
+
+.exclude > div > div > span, .lock > div > div > span
+{
+	display: inline-block;
+	width: 70%;
+	padding-left: 5%;
+}
+.exclude .close_button, .lock .close_button
+{
+	width: 8%;
+}
+/*     	CLOSE BUTTON      */
+
+.hide
+{
+	display: none;
+}
+.add_button
+{
+	border:none;
+	border-radius:10px;
+	background-color: rgb(255,186,53) !important;
+	color: rgb(33,33,33);
+}
+.delete_button
+{
+    display: block;
+    width: max-content;
+    padding: 0.5% 0.5% 0.2% 0.5%;
+    margin: 0 auto;
+    border:none;
+    background-color: rgb(205,37,64);
+    color: rgb(33,33,33);
+    border-radius: 20px;
+    height: 30px;
+}
+
+.main_info
+{
+	margin: 0 auto;
+}
+
+.main_info button
+{
+	width: 10%;
+	height: 30px;
+	font-size: 80%;
+}
+.main_info > div
+{
+	margin-top: 0.25%;
+}
+.participants
+{
+	font-size: 80%;
+}
+.participants ul
+{
+	list-style: none;
+	padding-left:10%;
+	padding-right:10%;
+}
+.participants li
+{
+	display: inline-block;
+	width: 10%;
+	float: left;
+}
+
+.menu
+{
+	position:fixed;
+	width: 15%;
+	background-color: rgb(22,22,22);
+	color: rgb(205,193,193);
+	border-radius: 5px;
+	border:2px solid black;
+	z-index: 1001;
+}
+.menu > span
+{
+	width: 5%;
+	margin-left:2%;
+}
+.menu > input
+{
+	margin-top: 5%;
+	border: 1px solid red;
+	border-radius: 5px;
+	width: 90%;
+	text-align: left;
+}
+.menu button
+{
+	font-size: 90%;
+	height: 10%;
+	width: 80%;
+	margin:2% auto;
+	padding-bottom: 1%;
+}
+
+.remove_panel
+{
+	margin: 0 auto;
+	background-color: rgb(22,22,22);
+	width: 30%;
+	border: 1px solid red;
+	border-radius: 5px;
+}
+
+.exclude
+{
+	display: inline-block;
+	vertical-align: top;
+	width: 49%;
+}
+.exclude p
+{
+	color: rgb(205,37,64);
+}
+.lock
+{
+	display: inline-block;
+	vertical-align: top;
+	width: 49%;
+}
+.lock p
+{
+	color: rgb(255,0,41);
+}
+.lock div
+{
+	border-radius: 5px;
+	margin:5%;
+	background-color: rgb(234,2,39);
+	color:black;
+}
+
+.menu .close_button
+{
+	display: block;
+	width: 5%;
+}

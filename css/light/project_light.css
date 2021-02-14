@@ -1,0 +1,32 @@
+#list
+{
+	background-color: rgb(198,201,206);
+}
+
+.list__caption, .list__cell, .list__card
+{
+	background-color: rgb(242,242,242);
+	color: rgb(38,38,38);
+}
+
+#paper
+{
+	background-color: rgb(198,201,206);
+}
+
+#look
+{
+	background-color: rgb(242,242,242);
+	color: rgb(38,38,38);
+}
+
+.page_navigator button
+{
+	background-color: rgb(255,186,53);
+	color:rgb(38,38,38);
+}
+
+.page_navigator > span
+{
+	background-color: rgb(242,242,242);
+}

@@ -1,0 +1,49 @@
+
+.checkbox
+{
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	display: inline-block;
+	width: 5% !important;
+	padding: 0;
+	vertical-align: top;
+
+	transition: background 0.3s ease;
+/*	background: url(https://snipp.ru/uploads/contents/checkbox-1.png) 0 0 no-repeat; */
+	background-color: rgba(0,0,0,0);
+	border: 2px solid black !important;
+	cursor: pointer;
+}
+
+.checkbox:checked 
+{
+	background-color: black;
+	background-size: 100%;
+}/*	outline: none;
+	width: 5% !important; 
+	height: 5% !important;
+.focused .checkbox
+{
+	box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+.checkbox:hover
+{
+	filter: brightness(110%);
+}
+
+.checkbox:active 
+{
+	filter: brightness(80%);
+}
+
+.checkbox:disabled
+{
+	color: #666;
+	cursor: default;
+}
+
+.checkbox:disabled 
+{
+	filter: grayscale(100%);
+	opacity: 0.6;
+}*/

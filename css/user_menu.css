@@ -1,0 +1,17 @@
+.user_menu
+{
+	position: absolute;
+	width: 10%;
+	margin-left: 45%;
+	background-color: rgb(33,33,33);
+	border-radius: 5px;
+	text-align: center;
+
+  border:1px solid rgb(255,186,53);
+  z-index: 2222;
+}
+.user_menu a
+{
+	text-decoration: none;
+  color: rgb(244,244,244);
+}

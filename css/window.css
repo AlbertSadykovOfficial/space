@@ -1,0 +1,72 @@
+.window
+{
+	width: 	30%;
+	background-color: rgb(22,22,22);
+	border-radius: 20px;
+	border:1px solid black;
+	color: rgb(110, 110, 110);
+}
+.window input
+{
+	width: 66%;
+	height: 12%;
+	background: none;
+	border-radius: 5px;
+	border: 1px solid black;
+
+	color: rgb(110, 110, 110);
+}
+.window > form img
+{
+	width: 100%;
+}
+.window form > input
+{
+		margin-bottom: 	2%;
+		margin-left: 		10px;
+}
+.window form > span
+{
+		display: inline-block;
+		width: 5%;
+		margin-left: -10px; 
+}
+.window > button
+{
+		float: right;
+		width: 3%;
+		background: none;
+		border: none;
+		padding: 0;
+		margin-right: 5%;
+}
+.window > button > img
+{
+		width: 100%;
+}
+.window div
+{
+		padding-top: 4%;
+		padding-bottom: 4%;
+}
+
+.window .submit_button
+{
+		cursor: pointer;
+			width: 38%;
+				height: 30px;
+		/*height: 15%;*/
+		border-style: none;
+		background-color: rgb(255,186,53);
+		color: rgb(22,22,22);
+		border-radius: 20px;
+		margin-top: 4%;
+		margin-bottom: 4%;
+}
+
+.window .submit_button:hover
+{
+			-moz-box-shadow:0 0 15px rgb(19,27,38);
+		-webkit-box-shadow:0 0 15px rgb(19,27,38);
+		box-shadow:0 0 15px rgb(19,27,38);
+}

@@ -247,7 +247,9 @@ textarea {
   line-height: 1.15; /* 1 */
   margin: 0; /* 2 */
 }
-
+textarea:focus, input:focus{
+outline: none;
+}
 /**
  * Show the overflow in IE.
  * 1. Show the overflow in Edge.

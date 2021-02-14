@@ -1,120 +1,112 @@
 <?php 
-	$dbhost = 'localhost';
-	$dbname = 'space_db';	// Должна быть создана
-	$dbuser = 'albert';
-	$dbpass = 'pass';
+    $dbhost = 'localhost';
+    $dbname = 'space_db';	// Должна быть создана
+    $dbuser = 'albert';
+    $dbpass = 'pass';
 
-	$appname = 'SPACE'; // Название соц сети
+    $appname = 'SPACE'; // Название соц сети
 
 
-	$connection = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
-	if ($connection->connect_error) die($connection->connect_error);
+    $connection = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
+    if ($connection->connect_error) die($connection->connect_error);
 
-		function createTable($name, $query)
-		{
-			queryMySQL("CREATE TABLE IF NOT EXISTS $name($query)");
-			echo "Таблица $name создана или уже существала<br>";
-		}
+    function createTable($name, $query)
+    {
+        queryMySQL("CREATE TABLE IF NOT EXISTS $name($query)");
+        echo "Таблица $name создана или уже существала<br>";
+    }
+ 
+    function queryMySQL($query)
+    {
+        global $connection; // Обращение к подкючению БД вне функции
+        $result = $connection->query($query);
+        if(!$result) die ($connection->error);
 
-		function queryMySQL($query)
-		{
-			global $connection; // Обращение к подкючению БД вне функции
-			$result = $connection->query($query);
-			if(!$result) die ($connection->error);
+        return $result;
+    }
 
-			return $result;
-		}
+    function destroySession()
+    {
+        $_SESSION = array();																							// Опустошаем сессию
 
-		function destroySession()
-		{
-			$_SESSION = array();																							// Опустошаем сессию
+        if (session_id() != '' || isset($_COOKIE[session_name()])) 
+            setcookie(session_name(), '', time()-2592000,'/');								// Просрачиваем cookie
 
-			if (session_id() != '' || isset($_COOKIE[session_name()])) 
-				setcookie(session_name(), '', time()-2592000,'/');								// Просрачиваем cookie
+        session_destroy();
+    }
 
-			session_destroy();
-		}
+    function sanitizeString($var)
+    {
+        global $connection;
 
-		function sanitizeString($var)
-		{
-			global $connection;
+        $var = strip_tags($var);
+        $var = htmlentities($var);
+        $var = stripslashes($var);
 
-			$var = strip_tags($var);
-			$var = htmlentities($var);
-			$var = stripslashes($var);
+        return $connection->real_escape_string($var);
+    }
 
-			return $connection->real_escape_string($var);
-		}
+    function deleteThisProject($project_id, $project_name, $project_pass, $user_id)
+    {
+        $delete = queryMySQL("SELECT * FROM projects 
+                                    WHERE id = $project_id 
+                                    AND name = '$project_name' 
+                                    AND pass = 'project_pass' 
+                                    AND admin=$user_id");
+        if ($delete->num_rows) 
+        {
+            $pj_id = $project_id.'_';
+            queryMySQL("DELETE FROM users_projects WHERE project_id = '$project_id'");
+            queryMySQL("DELETE FROM report WHERE id LIKE '$pj_id%'");
+            queryMySQL("DELETE FROM list 	 WHERE id LIKE '$pj_id%'");
 
-		function showProfile($user_id)
-		{
-			if (file_exists("../../storage/user_photo/$user_id.jpg")) //$user
-					echo "<img src = '../../storage/user_photo/$user_id.jpg' align = 'middle'>";	
+            queryMySQL("DELETE FROM projects WHERE project_id = '$project_id'");
+        }
+    }
+
+    function changeThisProjectName($project_id, $project_name)
+    {
+        queryMySQL("UPDATE projects SET name ='$project_name' WHERE id=$project_id");
+    }
+
+    function changeThisProjectPassword($project_id, $project_pass)
+    {
+        queryMySQL("UPDATE projects SET pass ='$project_pass' WHERE id=$project_id");
+    }
+
+    function deleteUsersFromProject($project_id, $admin_id, $users_id, $action)
+    {
+        $ids = '';
+        if (count($users_id)>0) 
+        {
+            for ($i=0; $i < count($users_id); $i++)
+            {
+                if ($users_id[$i] != $admin_id) 
+                {
+                    $ids = $ids."'".$users_id[$i]."',";
+                }
+            }
+            
+            $ids = substr($ids,0,-1);
+            
+            if ($action === 'exclude')
+                queryMySQL("DELETE FROM users_projects WHERE project_id='$project_id' AND user_id IN ($ids)");
+            else if ($action === 'lock')
+                queryMySQL("UPDATE users_projects SET is_blocked = true WHERE project_id='$project_id' AND user_id IN ($ids)");
+            
+            echo "Исключаю: $ids";
+				//echo "Блокирую: $ids"; 
+
+        }else echo 'I Didnt deleted/ anyone';
+    }
+
+    function UnlockUserInTheProject($project_id, $users_id)
+    {
+        queryMySQL("UPDATE users_projects SET is_blocked = false WHERE project_id='$project_id' AND user_id=$users_id");
+    }
 		
-			//$result = queryMySQL("SELECT * FROM users_projects WHERE user_id = '$user'");
-
-/*			if ($result->num_rows) 
-			{
-				$row = $result->fetch_array(MYSQLI_ASSOC);
-				echo stripslashes($row['text']).
-									"<br style = 'clear : left;'><br>";
-			}
-*/			
-		}
-
-		function showMyProjects($user_id)
-		{
-			$result = queryMySQL("SELECT * FROM users_projects WHERE user_id = '$user_id'");
-			$num = $result->num_rows;
-			echo "Найдено совпадений ($num) <br>";
-			
-			for ($i=1; $i <= $num ; $i++) 
-			{ 
-					$row = $result->fetch_array(MYSQLI_ASSOC);
-					
-					$out = $row['project_id'];
-					$out = queryMySQL("SELECT * FROM projects WHERE id = '$out'")->fetch_array(MYSQLI_ASSOC)['name'];
-					if ($out != NULL)
-					{ 
-						echo "$out";
-						$out = $row['project_id'];
-						echo "<button onclick=enter_to_project('$out')>(войти)</button> <a href='../project/delete_project.php?project_id=$out'>(удалить)</a><br>";
-					}
-			}
-		}
-
-		function deleteThisProject($project_id, $project_name, $project_pass, $user_id)
-		{
-			$delete = queryMySQL("SELECT * FROM projects WHERE id = $project_id AND name = '$project_name' AND pass = 'project_pass' AND admin=$user_id");
-			if ($delete->num_rows) 
-			{
-				$pj_id = $project_id.'_';
-				queryMySQL("DELETE FROM users_projects WHERE project_id = '$project_id'");
-				queryMySQL("DELETE FROM report WHERE id LIKE '$pj_id%'");
-				queryMySQL("DELETE FROM list 	 WHERE id LIKE '$pj_id%'");
-
-				queryMySQL("DELETE FROM projects WHERE project_id = '$project_id'");
-			}
-		}
-
-		function changeThisProjectName($project_id, $project_name)
-		{
-			queryMySQL("UPDATE projects SET name ='$project_name' WHERE id=$project_id");
-		}
-
-		function changeThisProjectPassword($project_id, $project_pass)
-		{
-			queryMySQL("UPDATE projects SET pass ='$project_pass' WHERE id=$project_id");
-		}
-
-		function deleteUserFromProject($project_id, $user_id)
-		{
-			queryMySQL("DELETE FROM users_projects WHERE project_id='$project_id' AND user_id='$user_id'");
-		}
-		
-		function create_regexp($level)
-		{	
-			return "\"^".substr(str_repeat("[0-9]*_",$level),0,-1)."$\"";
-		}
-	
+    function create_regexp($id, $level)
+    {	
+        return "\"^". $id.'_'.substr(str_repeat("[0-9]*_",$level),0,-1)."$\"";
+    }
  ?>

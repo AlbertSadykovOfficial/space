@@ -1,0 +1,38 @@
+body
+{
+	background-image: none;
+	background-color: rgb(198,201,206);
+}
+
+.user_block , .projects_block
+{
+	background-color: rgb(242,242,242);
+	color: rgb(33,33,33);
+}
+
+._id
+{
+	color: rgb(33,33,33);
+}
+.project_row
+{
+	background-color: rgb(198,201,206);
+	color:rgb(33,33,33);
+}
+
+.search
+{
+	background-color: rgb(198,201,206);
+	border:none;
+}
+.search input
+{
+	background-color: rgb(198,201,206);	
+	color: rgb(33,33,33);
+}
+.msg
+{
+	background-color: rgb(242,242,242);
+	border-color: rgb(255,186,53);
+	color: rgb(33,33,33);
+}
