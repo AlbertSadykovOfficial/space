@@ -103,10 +103,10 @@
 
 
 <div id='bar'>
-    <button class='bar_button' onclick='change_bar_mode()' style='width:8%;'><img src='https://www.space.com/content/menu_icon.png'></button>
+    <button class='bar_button' onclick='change_bar_mode()' style='width:8%;'><img src='http://space.com/content/menu_icon.png'></button>
 
     <div id='show_structure_btn'>
-        <button class='bar_button' onclick='show_strucutre()'><img src='https://www.space.com/content/search_icon.png'></button>
+        <button class='bar_button' onclick='show_strucutre()'><img src='http://space.com/content/search_icon.png'></button>
         <input type='text' class='hide' onchange='find_by_name()' placeholder='№/name'>
         <div id='structure_pannel' class='hide'>
             

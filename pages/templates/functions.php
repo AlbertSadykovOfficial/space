@@ -77,7 +77,7 @@
     function deleteUsersFromProject($project_id, $admin_id, $users_id, $action)
     {
         $ids = '';
-        if (count($users_id)>0) 
+        if (count($users_id)>0 && $admin_id != $users_id[0]) 
         {
             for ($i=0; $i < count($users_id); $i++)
             {
@@ -95,8 +95,7 @@
                 queryMySQL("UPDATE users_projects SET is_blocked = true WHERE project_id='$project_id' AND user_id IN ($ids)");
             
             echo "Исключаю: $ids";
-				//echo "Блокирую: $ids"; 
-
+            
         }else echo 'I Didnt deleted/ anyone';
     }
 

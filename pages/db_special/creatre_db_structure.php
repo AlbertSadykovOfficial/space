@@ -16,14 +16,14 @@
                 user VARCHAR(16),
                 pass VARCHAR(16),
                 nickname VARCHAR(30),
-                msg TINYTEXT,
                 profession VARCHAR(100),
                 company VARCHAR(100),
                 location VARCHAR(100),
-                href TINYTEXT
+                href TINYTEXT,
+                msg TINYTEXT,
                 INDEX(user(6))'
 								);
-		createTable('projects',
+	createTable('projects',
                 'id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(100),
                 pass VARCHAR(16),
@@ -36,7 +36,8 @@
                 case_description TEXT(1000),
                 executor VARCHAR(16),
                 board MEDIUMTEXT,
-                canvas MEDIUMTEXT
+                canvas MEDIUMTEXT,
+                deadline TINYTEXT,
                 INDEX(id(6))'
 								);
 // Поставил ограничение Отчета одного Дела на 18 страниц !!!! шрифтом 14
@@ -54,7 +55,7 @@
 								);
 		createTable('permission',
                 'project_id INT,
-                key VARCHAR(7)'
+                project_key VARCHAR(7)'
 								);
 ?>
 

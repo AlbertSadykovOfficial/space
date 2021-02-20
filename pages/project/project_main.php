@@ -17,7 +17,7 @@
             $x = (int)$_POST['lastNumm'];
             $dontknow = $_POST['delete_range'] - 1;
             $delete_task_num = $id.'_';
-            queryMySQL("DELETE FROM list 		WHERE id 	LIKE '$delete_task_num%'");
+            queryMySQL("DELETE FROM list 	WHERE id 	LIKE '$delete_task_num%'");
             queryMySQL("DELETE FROM report 	WHERE id 	LIKE '$delete_task_num%'");
 
             if(strlen($id) >= 3) queryMySQL("INSERT INTO report VALUES('$id',$x-$dontknow,'$id')");
@@ -29,7 +29,7 @@
         }
         else
         {
-             $del_position = (int)$_POST['delete_task_position']; 
+            $del_position = (int)$_POST['delete_task_position']; 
             $del_id 			= $_POST['delete_task_id'];	
             $del_position = queryMySQL("SELECT position FROM report WHERE id LIKE '$del_id%' ORDER BY id");
             $how = $del_position->num_rows;

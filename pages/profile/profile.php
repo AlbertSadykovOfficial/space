@@ -1,3 +1,6 @@
+<?php  
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,21 +19,21 @@
 </head>
 <body>
 <header oncontextmenu="change_theme('profile'); return false;">
-    <img src="https://www.space.com/content/logo.png" onclick="show_user_menu();">
+    <img src="http://space.com/content/logo.png" onclick="show_user_menu();">
     <div class='user_menu hide'>
-        <a href="https://www.space.com/pages/authentication/logout.php">Выйти</a>
+        <a href="http://space.com/pages/authentication/logout.php">Выйти</a>
     </div>
 </header>
 <?php  
-    session_start();
+#    session_start();
     require_once('../templates/functions.php');
     if (isset($_SESSION['user'])) 
     {			
         $user 		= $_SESSION['user'];
         $user_id 	= $_SESSION['user_id'];
-        $loggedin =	true;
-        $userstr	=	" ($user)"; 
-        $server_content_folder = 'https://www.space.com/content';
+        $loggedin   = true;
+        $userstr	= " ($user)"; 
+        $server_content_folder = 'http://space.com/content';
         echo "<script>let server_content_folder = '$server_content_folder';</script>";
     }
     else 
@@ -43,16 +46,16 @@
     {
         $nickname 	= $_POST['nickname'];
         $profession = $_POST['profession'];
-        $company 		= $_POST['company'];
+        $company 	= $_POST['company'];
         $location 	= $_POST['location'];
-        $href 			= $_POST['href'];
+        $href 		= $_POST['href'];
         queryMySQL("UPDATE members SET
 										nickname	='$nickname',
-										profession='$profession',
+										profession  ='$profession',
 										company		='$company',
 										location	='$location',
-										href			='$href' 
-										WHERE id='$user_id'");
+										href		='$href' 
+										WHERE id ='$user_id'");
     }
 ?>
 
@@ -115,8 +118,8 @@
         }
 
 			// Внутренний редирект при загрузке фото
-        header("Location: http://{$_SERVER['SERVER_NAME']}{$_SERVER['SCRIPT_NAME']}?view_id=$user_id&$rnd");
-        exit;
+       # header("Location: http://{$_SERVER['SERVER_NAME']}{$_SERVER['SCRIPT_NAME']}?view_id=$user_id&$rnd");
+        #exit;
     }
 	
 ?>
@@ -145,7 +148,7 @@
         echo "<div class='user_block'> <div class='photo' oncontextmenu='change_profile_photo(); return false'>";
         if (file_exists("../../storage/user_photo/".$user['id'].".jpg")) //$user
 			// Не забудь поправить png на jpg
-					echo "<img src = 'https://www.space.com/storage/user_photo/".$user['id'].".jpg' align = 'middle'>";
+					echo "<img src = 'http://space.com/storage/user_photo/".$user['id'].".jpg' align = 'middle'>";
         else 
 					echo "<img src = '$server_content_folder/standart_user_icon.png' align = 'middle'>";
         echo "</div>";

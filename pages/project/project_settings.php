@@ -1,12 +1,22 @@
+<?php    
+            session_start();
+
+            $user_id            = $_SESSION['user_id'];
+            $project_name       = $_SESSION['executable_project_name'];
+            $project_id         = $_SESSION['executable_project_id'];
+            $project_id_get     = $_GET['project_id'];
+
+            $domain = 'http://space.com';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
     <link rel="stylesheet" href="../../css/user_menu.css">
-    <link rel="stylesheet" href="https://www.space.com/css/config.css">
-    <link rel="stylesheet" href="https://www.space.com/css/style.css">
-    <link rel="stylesheet" href="https://www.space.com/css/project_settings.css">
+    <link rel="stylesheet" href="http://space.com/css/config.css">
+    <link rel="stylesheet" href="http://space.com/css/style.css">
+    <link rel="stylesheet" href="http://space.com/css/project_settings.css">
 
 <?php 
     if (isset($_COOKIE['theme']))
@@ -24,28 +34,23 @@
 </head>
 <body>
     <header>
-        <img  src="https://www.space.com/content/logo.png" onclick="show_user_menu();">
+        <img  src="http://space.com/content/logo.png" onclick="show_user_menu();">
         <div class='user_menu hide'>
 
 <?php 	 
-            session_start();
             require_once("../templates/functions.php");
-            $user_id 					= $_SESSION['user_id'];
-            $project_name 		= $_SESSION['executable_project_name'];
-            $project_id   		= $_SESSION['executable_project_id'];
-            $project_id_get		= $_GET['project_id'];
 
-            echo 		"<a href='https://www.space.com/pages/profile/profile.php?view_id=$user_id'>Домой</a><br>".
-                    "<a href='https://www.space.com/pages/project/project.php?project_id=$project_id'>Проект</a><br>".
-                    "<a href='https://www.space.com/pages/authentication/logout.php'>Выйти</a><br>".
+            echo 		"<a href='$domain/pages/profile/profile.php?view_id=$user_id'>Домой</a><br>".
+                    "<a href='$domain/pages/project/project.php?project_id=$project_id'>Проект</a><br>".
+                    "<a href='$domain/pages/authentication/logout.php'>Выйти</a><br>".
         "</div>".
     "</header>";
 
-    $admin 						= queryMySQL("SELECT admin FROM projects WHERE id=$project_id AND admin=$user_id")->num_rows;
+    $admin = queryMySQL("SELECT admin FROM projects WHERE id=$project_id AND admin=$user_id")->num_rows;
 
     if ($project_id !== $project_id_get) 
     {
-        die("Access Denied!<br>You are not logged in to this project<br>Please, back to profile and Log in to the project<br><a href='https://www.space.com/pages/profile/profile.php?view_id=$user_id'>Back to profile</a>");
+        die("Access Denied!<br>You are not logged in to this project<br>Please, back to profile and Log in to the project<br><a href='$domain/pages/profile/profile.php?view_id=$user_id'>Back to profile</a>");
     }
 
     if ($admin) 
@@ -67,7 +72,7 @@
             {
                 if ($_POST['changeProjectPass1'] != '') 
                 {
-                    $project_id 		= $_GET['project_id'];
+                    $project_id 	= $_GET['project_id'];
                     $project_pass1 	= $_POST['changeProjectPass1'];
                     $project_pass2 	= $_POST['changeProjectPass2'];
                     
@@ -80,10 +85,12 @@
 
             if (isset($_POST['delete_user_from_project']) && $_POST['delete_user_from_project'] != '') 
             {
+                echo $_POST['delete_user_from_project']." $user_id";
                 if ($_POST['delete_user_from_project'] == $user_id) 
                     echo "Вы не можете исключить себя";
                 else
-                    deleteUserFromProject($project_id,$_POST['delete_user_from_project']);
+                    echo '';
+                   # deleteUserFromProject($project_id, $_POST['delete_user_from_project']);
             }
 
             if (isset($_POST['exclude'])) 
@@ -254,7 +261,7 @@
         }
 
         content = "<div class='menu'>"+
-                    "<button class='close_button' onclick=remove_from_remove_panel(this)><img src='https://www.space.com/content/close.png' alt='HIDE'></button>"+
+                    "<button class='close_button' onclick=remove_from_remove_panel(this)><img src='http://space.com/content/close.png' alt='HIDE'></button>"+
                     "<span>#</span><input type='text' value='"+id+"'>"+
                     "<span>("+name+")</span>"+
                     "<button class='delete_button' onclick=\"push_to_exclude("+id+",'"+name+"')\">Исключить</button>"+
@@ -272,7 +279,7 @@
         }
 
         content = "<div class='menu'>"+
-                    "<button class='close_button' onclick=remove_from_remove_panel(this)><img src='https://www.space.com/content/close.png' alt='HIDE'></button>"+
+                    "<button class='close_button' onclick=remove_from_remove_panel(this)><img src='http://space.com/content/close.png' alt='HIDE'></button>"+
                     "<span>("+name+")</span>"+
                     "<button class='delete_button' onclick=\"push_to_unclock("+id+")\" style='background-color:rgb(0,255,41)'>Вернуть в проект</button>"+
                 "</div>";
@@ -288,8 +295,8 @@
         {
             content = '<div id=\'remove_'+id+'\'>'+
                         '<span>'+name+'</span>'+
-                        '<input type=text name=exclude[] value='+id+' hidden>'+
-                        "<button class='close_button' onclick=remove_from_remove_panel(this)><img src='https://www.space.com/content/delete_icon.png' alt='HIDE'></button>"+
+                        "<input type='text' name=exclude[] value=" + id + " hidden>"+
+                        "<button class='close_button' onclick=remove_from_remove_panel(this)><img src='http://space.com/content/delete_icon.png' alt='HIDE'></button>"+
                       '</div>';
             document.getElementsByClassName('exclude')[0].children[1].insertAdjacentHTML('beforeEnd',content);
         }else
@@ -308,7 +315,7 @@
             content = '<div id=\'remove_'+id+'\'>'+
                         '<span>'+name+'</span>'+
                         '<input type=text name=lock[] value='+id+' hidden>'+
-                        "<button class='close_button' onclick=remove_from_remove_panel(this)><img src='https://www.space.com/content/delete_icon.png' alt='HIDE'></button>"+
+                        "<button class='close_button' onclick=remove_from_remove_panel(this)><img src='http://space.com/content/delete_icon.png' alt='HIDE'></button>"+
                         '</div>';
             document.getElementsByClassName('lock')[0].children[1].insertAdjacentHTML('beforeEnd',content);
         }

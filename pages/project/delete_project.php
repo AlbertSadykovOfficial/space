@@ -18,7 +18,7 @@
 </head>
 <body>
 <header>
-    <img  src="https://www.space.com/content/logo.png" onclick="show_user_menu();">
+    <img  src="http://space.com/content/logo.png" onclick="show_user_menu();">
     <div class='user_menu hide'>
 <?php
     session_start();
@@ -35,8 +35,8 @@
         die('Вы не зарегистрированы');
     }
 
-echo    "<a href='https://www.space.com/pages/profile/profile.php?view_id=$user_id'>Домой</a><br>".
-        "<a href='https://www.space.com/pages/authentication/logout.php'>Выйти</a>".
+echo    "<a href='http://space.com/pages/profile/profile.php?view_id=$user_id'>Домой</a><br>".
+        "<a href='http://space.com/pages/authentication/logout.php'>Выйти</a>".
     "</div>".
 "</header>";
 
@@ -46,7 +46,7 @@ echo "<div class = 'main'>";
     {
         $project_id = $_GET['project_id'];
         $admin_id 	= queryMySQL("SELECT * FROM projects WHERE id=$project_id")->fetch_array(MYSQLI_ASSOC)['admin'];
-        $user_id		= $_SESSION['user_id'];
+        $user_id	= $_SESSION['user_id'];
         $project_password = queryMySQL("SELECT * FROM projects WHERE id=$project_id")->fetch_array(MYSQLI_ASSOC)['pass'];
         $project_password_by_user = $_POST['project_password'];
 			
@@ -55,13 +55,16 @@ echo "<div class = 'main'>";
             die("Access Denied<br>You must have administrator Roots<br><a href='../profile/profile.php?view_id=$user_id'>BACK to profile page</a>");
         }else if ($user_id === $admin_id && $project_password === $project_password_by_user) 
         {
-						// Не работает
+			// Не работает
             $pj_id = $project_id.'_';
             queryMySQL("DELETE FROM report WHERE id LIKE '$pj_id%'");
-            queryMySQL("DELETE FROM list 	 WHERE id LIKE '$pj_id%'");
+            queryMySQL("DELETE FROM list   WHERE id LIKE '$pj_id%'");
+
+            queryMySQL("DELETE FROM report WHERE id='$pj_id'");
+            queryMySQL("DELETE FROM list   WHERE id='$pj_id'");
 
             queryMySQL("DELETE FROM users_projects WHERE project_id = $project_id");
-            queryMySQL("DELETE FROM projects  		 WHERE id 				= $project_id");
+            queryMySQL("DELETE FROM projects  	   WHERE id 		= $project_id");
 
             rmdir("../../storage/project_$project_id");
 

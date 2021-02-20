@@ -6,6 +6,9 @@
     header("Cache-Control: max-age = 0"); 
     header("Pragma: no-cache");
     header('Expires: 0'); // Proxies.
+    session_start();
+
+    $domain = 'http://space.com';
 ?>
 <!DOCTYPE html>
 <html lang="en" style='height:100%;'>
@@ -20,7 +23,6 @@
     <link rel="stylesheet" href="../../css/project/project_list.css">
     <link rel="stylesheet" href="../../css/project/project_paper.css">
     <link rel="stylesheet" href="../../css/project/project_board.css">
-	
 <?php 
     if (isset($_COOKIE['theme']))
         echo "<link id='".$_COOKIE['theme']."_theme_css' rel = 'stylesheet' type = 'text/css' href = '../../css/light/project_".$_COOKIE['theme'].".css'>"
@@ -89,10 +91,13 @@ echo	"</main>";
 <script src="../../js/project/project_board_canvas.js"></script>
 <script src="../../js/project/project_board.js"></script>
 
+
 <!--<script src='../../js/project/calendar.js'></script>-->
 <script src='../../js/AJAX/ajaxRequest.js'></script>
-	
+
+<!--
 <script src='../../js/project/hyphenation.js'></script>
 <script src='../../js/project/handwrite.js'></script>
+-->
 <script src='../../js/project/to_photo.js'></script>
 </html>

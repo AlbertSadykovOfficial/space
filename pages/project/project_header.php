@@ -1,10 +1,10 @@
 <?php 
     session_start();
     require_once("../templates/functions.php");
-    $user_id 					= $_SESSION['user_id'];
+    $user_id 			= $_SESSION['user_id'];
     $project_name 		= $_SESSION['executable_project_name'];
     $project_id   		= $_SESSION['executable_project_id'];
-		
+
     $project_id_get == '';
     for ($i=0; $i < strlen($project_id) ; $i++) 
     { 
@@ -14,7 +14,7 @@
 
     if ($project_id !== $project_id_get) 
     {
-        $project_id   		= $_SESSION['executable_project_id'];
+        $project_id = $_SESSION['executable_project_id'];
 
         die("<a id='go_into_project' ".
             "href='project.php?project_id=$project_id'>Go Into Project</a>".
@@ -23,7 +23,7 @@
     }
 
     if(!(queryMySQL("SELECT * FROM users_projects WHERE user_id=$user_id AND project_id=$project_id")->num_rows))
-    {
+    {    
         $header_output = "$project_name".
                         "<form style='display:inline-block;' method = 'POST' action = 'join_the_project.php'>".
                             "<input type='submit' name='project_num' value='JOIN_#$project_id'>".
@@ -90,7 +90,7 @@
 		  
                 if ($success) 
                 {
-			  	//$destiation_dir = 'https://www.space.com/storage/project_'.$project_id.'/'. $_FILES['my_files']['name'][$key]; // директория для размещения файла'
+			  	//$destiation_dir = '$domain/storage/project_'.$project_id.'/'. $_FILES['my_files']['name'][$key]; // директория для размещения файла'
                     echo "<script>".
                             "console.log('".$_FILES['my_files']['name'][$key].",".
                                             $_FILES['my_files']['tmp_name'][$key].",".
@@ -118,8 +118,8 @@
     }else{ $file_upload_info = false; }
 
 
-    $server_project_folder = 'https://www.space.com/storage/project_'.$project_id;
-    $server_content_folder = 'https://www.space.com/content';
+    $server_project_folder = "$domain/storage/project_".$project_id;
+    $server_content_folder = "$domain/content";
     echo "<script>server_project_folder = '$server_project_folder'; server_content_folder = '$server_content_folder'</script>";
     $current_dir = '../../storage/project_'.$project_id;
     $dir = opendir($current_dir);
@@ -172,9 +172,9 @@ echo '<header '. "oncontextmenu=\"change_theme('project'); return false;\">".
         "<span style='text-align: center; height:90%'>".
             "<img style='height:90%;'src='$server_content_folder/logo.png' onclick='show_user_menu();'>".
             "<div class='user_menu hide' style='margin-left: 11.5%;'>".
-                "<a href='https://www.space.com/pages/profile/profile.php?view_id=$user_id'>Домой</a><br>".
-                "<a href='https://www.space.com/pages/profile/profile.php?view_id=$user_id'>Выйти из проекта</a><br>".
-                "<a href='https://www.space.com/pages/authentication/logout.php'>Выйти</a>".
+                "<a href='$domain/pages/profile/profile.php?view_id=$user_id'>Домой</a><br>".
+                "<a href='$domain/pages/profile/profile.php?view_id=$user_id'>Выйти из проекта</a><br>".
+                "<a href='$domain/pages/authentication/logout.php'>Выйти</a>".
             "</div>".
         "</span>".
         "<span style='text-align: right; height: 90%;'>".

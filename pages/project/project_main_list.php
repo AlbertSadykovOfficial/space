@@ -3,12 +3,12 @@
     $id 				= $_GET['project_id'];
     //$level 			= substr_count($id, '_');
     $REGEXP 		= create_regexp($id,1);
-//id LIKE '$id%' AND
+
     $task_list 				= queryMySQL("SELECT * FROM list WHERE id REGEXP $REGEXP ORDER BY id");
     $task_list_length = $task_list->num_rows;
 
     $REGEXP = create_regexp($id,2);
-//id LIKE '$id%' AND 
+
     $sub_task_list 				= queryMySQL("SELECT * FROM list WHERE id REGEXP $REGEXP ORDER BY id");
     $sub_task_list_length = $sub_task_list->num_rows;
 		

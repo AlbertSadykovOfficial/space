@@ -1,7 +1,7 @@
 <?php 
 
     require_once('../templates/header.php');
-    $server_content_folder = 'https://www.space.com/content';
+    $server_content_folder = 'http://space.com/content';
 
     echo    "<link rel = 'stylesheet' type = 'text/css' href = '../../css/config.css'>";
     echo    "<link rel = 'stylesheet' type = 'text/css' href = '../../css/authentication_dark.css'>";

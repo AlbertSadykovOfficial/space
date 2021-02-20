@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,25 +21,23 @@
 </head>
 <body>
 <header>
-    <img  src="https://www.space.com/content/logo.png" onclick="show_user_menu();">
+    <img  src="http://space.com/content/logo.png" onclick="show_user_menu();">
     <div class='user_menu hide'>
 
 <?php 
-    session_start();
-
     require_once('../templates/functions.php');
     if (isset($_SESSION['user'])) 
     {
-        $user 		= $_SESSION['user'];
-        $user_id	=	$_SESSION['user_id'];
+        $user 	  = $_SESSION['user'];
+        $user_id  = $_SESSION['user_id'];
         $loggedin =	TRUE;
     }
     else
     {
         die('Вы не зарегистрированы');
     }
-    echo    "<a href='https://www.space.com/pages/profile/profile.php?view_id=$user_id'>Домой</a><br>".
-            "<a href='https://www.space.com/pages/authentication/logout.php'>Выйти</a>".
+    echo    "<a href='http://space.com/pages/profile/profile.php?view_id=$user_id'>Домой</a><br>".
+            "<a href='http://space.com/pages/authentication/logout.php'>Выйти</a>".
         "</div>".
     "</header>";
 
@@ -45,19 +46,19 @@
     if (isset($_POST['project_name']) && $_POST['project_name'] != '') 
     {
 
-        $project_name						=	stripslashes($_POST['project_name']);
-        $about_project					=	stripslashes($_POST['about_project']);
-        $user_id								= $_SESSION['user_id'];
+        $project_name	= stripslashes($_POST['project_name']);
+        $about_project	= stripslashes($_POST['about_project']);
+        $user_id		= $_SESSION['user_id'];
 
         if(isset($_POST['project_password']) && $_POST['project_password'] != '')
         {
-            $project_password 			= stripslashes($_POST['project_password']);
+            $project_password 		= stripslashes($_POST['project_password']);
             $retry_project_password	= stripslashes($_POST['retry_project_password']);
 							
             if (isset($_POST['only_key_access']) && $_POST['only_key_access'] == 'true') 
                 $is_private = 1;
             else
-                $is_private = 0;
+                $is_private = 0; 
 							
 
             if ($project_password === $retry_project_password) 
