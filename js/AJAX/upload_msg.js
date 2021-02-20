@@ -2,5 +2,5 @@
     { 
         args = 'id=' + id + '&' + 'msg=' +element.value;
         //Отправляем запроc
-        ajaxRequest("POST", 'https://www.space.com/js/AJAX/change_msg.php', args, function(){});
+        ajaxRequest("POST", 'http://space.com/js/AJAX/change_msg.php', args, function(){});
     }

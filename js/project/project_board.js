@@ -232,7 +232,7 @@ TEMPL = '';
                 document.getElementById('slide_to_bottom').classList.add('new_bottom_pannel');
             }
 
-            document.getElementById('viz_content').scro llTop += to_pixel('100%',1).slice(0,-2);
+            document.getElementById('viz_content').scrollTop += to_pixel('100%',1).slice(0,-2);
         }
 
         if (direction == 'to_top') 
@@ -347,7 +347,7 @@ TEMPL = '';
 		
     function get_src_image(val)
     {
-        if 			(val.includes('.doc'))	return  server_content_folder+'/icons/word.png';
+        if 		(val.includes('.doc'))	return  server_content_folder+'/icons/word.png';
         else if (val.includes('.xl')) 		return 	server_content_folder+'/icons/excel.png';
         else if (val.includes('.accdb'))	return 	server_content_folder+'/icons/access.png';
         else if (val.includes('.pp'))		return 	server_content_folder+'/icons/powerpoint.png';
@@ -503,7 +503,7 @@ TEMPL = '';
 
 */
 
-    function create_new_element(type,place)
+    function create_new_element(type, place)
     {
         if (type == 'image'){
             descr_1 = 'Интернет';

@@ -306,7 +306,7 @@ let show_bar = 1;
         }
         //console.log((document.getElementById(element.dataset.id).innerHTML).replaceAll("'",'(!1qts!)').replaceAll('"','(!2qts!)').replaceAll('&nbsp',''));
         args = 'element_id=' + id + '&' + "data_conclusion="+(document.getElementById(element.dataset.id).innerHTML).replaceAll("'",'(!1qts!)').replaceAll('"','(!2qts!)').replaceAll('&nbsp',' ');
-        ajaxRequest("POST", 'https://www.space.com/js/AJAX/paper_synchronization.php', args, function(){});
+        ajaxRequest("POST", 'http://space.com/js/AJAX/paper_synchronization.php', args, function(){});
     }
 
     function menu(id)

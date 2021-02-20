@@ -25,9 +25,9 @@
         if (have_pass == 1)
         {
             content =	 content + "<span class='fieldname'><img src='../../content/pass_icon.png'></span>"+
-				"<input type = 'password' maxlength='16' name = 'project_password' placeholder='PASSWORD'><br>";
+				"<input type = 'password' maxlength='16' name='project_password' placeholder='PASSWORD'><br>";
         } else {
-            content =	 content + "<span style='width:auto'>Свободный Доступ</span><input type='text' name = 'project_password_null' style='display:none' value='null'><br>";
+            content =	 content + "<span style='width:auto'>Свободный Доступ</span><input type='text' name='project_password_null' style='display:none' value=null><br>";
         }
         content =	 content + "<input type='submit' class='submit_button' value='Enter'>"+
  								'</form></div>';
@@ -124,19 +124,19 @@
     {
         if (type==1) 
         {
-            document.getElementsByClassName('pass_div')[0].innerHTML = 'Проект будет без пароля <input type=text name=no_pass value=true style=display:none>';
+            document.getElementsByClassName('pass_div')[0].innerHTML = "Проект будет без пароля <input type='text' name='project_password_null' value=true style=display:none>'";
         }
         else if (type==2)
         {
             document.getElementsByClassName('pass_div')[0].innerHTML = 
-            "<input type = 'password' maxlength='16' name = 'project_password' 				placeholder='PASSWORD'><br>"+
+            "<input type = 'password' maxlength='16' name = 'project_password' 			placeholder='PASSWORD'><br>"+
             "<input type = 'password' maxlength='16' name = 'retry_project_password'	placeholder='RETRY PASSWORD'><br>";
         }
         else if (type==3)
         {
             document.getElementsByClassName('pass_div')[0].innerHTML = 
-            "<input type = 'text' maxlength='4' name = 'only_key_access' value='true' style='display:none'>"+
-            "<input type = 'password' maxlength='16' name = 'project_password' 				placeholder='PASSWORD'><br>"+
+            "<input type = 'text' maxlength='4'      name = 'only_key_access' value='true' style='display:none'>"+
+            "<input type = 'password' maxlength='16' name = 'project_password' 			placeholder='PASSWORD'><br>"+
             "<input type = 'password' maxlength='16' name = 'retry_project_password'	placeholder='RETRY PASSWORD'><br>";
         }
     }

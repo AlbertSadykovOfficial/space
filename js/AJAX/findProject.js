@@ -8,7 +8,7 @@ function findProjectByName(name, target)
     
     name = 'project_name=' + name;
     //Отправляем запроc
-    ajaxRequest("GET", 'https://www.space.com/js/AJAX/get_projects.php', name, Handler);
+    ajaxRequest("GET", 'http://space.com/js/AJAX/get_projects.php', name, Handler);
     //ajaxRequest("POST", 'get_projects.php', name, Handler); 
 }
 
@@ -22,6 +22,6 @@ function findProjectByKey(name, target)
     
     name = 'project_key=' + name;
     //Отправляем запроc
-    ajaxRequest("GET", 'https://www.space.com/js/AJAX/get_projects.php', name, Handler);
+    ajaxRequest("GET", 'http://space.com/js/AJAX/get_projects.php', name, Handler);
     //ajaxRequest("POST", 'get_projects.php', name, Handler); 
 } 
