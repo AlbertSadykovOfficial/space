@@ -650,7 +650,7 @@ TEMPL = '';
             console.log(this_id, json_board, json_canvas);
 					
             args = 'project_id=' + this_id + '&' + "data_board=" + json_board + "&" + "data_cnvs=" + json_canvas;
-            ajaxRequest("POST", 'https://www.space.com/js/AJAX/board_synchronization.php', args, function(){});
+            ajaxRequest("POST", 'http://space.com/js/AJAX/board_synchronization.php', args, function(){});
 				
             has_something_changed = false;
         }
