@@ -60,10 +60,12 @@
 
 Элементы доски представлены на рисунке 1:
 ![Доска со всеми элементами](https://raw.githubusercontent.com/AlbertSadykovOfficial/space/master/PROJECT_SCREENSHOTS/BOARD.png)
+
 Рис. 1 - Элементы доски
 
 Холст позволяет рисовать просты схемы или рисунки.
 ![Холст](https://raw.githubusercontent.com/AlbertSadykovOfficial/space/master/PROJECT_SCREENSHOTS/canvas.JPG)
+
 Рис. 2 - Холст
 
 ### Помимо самих элементов доска имеет некоторый удобный функционал:
@@ -82,20 +84,25 @@
 13. Можно устанавливать сроки на блоки
 
 ![Группировку элементов](https://raw.githubusercontent.com/AlbertSadykovOfficial/space/master/PROJECT_SCREENSHOTS/GROUP.JPG)
+
 Рис. 1 - Группировка
 
 ![Возможность сворачивать (прятать) как элементы, так и группы элементов](https://raw.githubusercontent.com/AlbertSadykovOfficial/space/master/PROJECT_SCREENSHOTS/hide.png)
+
 Рис. 2 - Возможность сворачивания
 
 ![Меню элемента доски](https://raw.githubusercontent.com/AlbertSadykovOfficial/space/master/PROJECT_SCREENSHOTS/menu.JPG)
+
 Рис. 3 - Меню элемента доски
 
 Работа Drag-n-Drop: Мы можем перетащить любой элемент (Мультимедиа, текст и др.) с другого сайта (Рис 4), при срабатывании на доске события Drop работает скрипт, который попытается определить тип содержимого, которое скинули на доску. Если это картинка (определяет по расширению в конце ссылки), то  он создаст объект картинки и асинхронно занесет ее в БД, то же самое и с другими мультимедиа файлами, если распознать объект не получится, то будет создан элемент - заметка, куда поместится содержимое буфера (Рис 5).
 
 ![Перетаскивание картинки с другого сайта](https://raw.githubusercontent.com/AlbertSadykovOfficial/space/master/PROJECT_SCREENSHOTS/drag_from_another_site.jpg)
+
 Рис. 4 - Перетаскивание картинки с другого сайта
 
 ![После срабатывания события Drop](https://raw.githubusercontent.com/AlbertSadykovOfficial/space/master/PROJECT_SCREENSHOTS/drop_from_another_site.jpg) 
+
 Рис. 5 - После срабатывания события Drop
 
 
