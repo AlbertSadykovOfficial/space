@@ -19,9 +19,11 @@
 Рис 1. Кабинет управления проектом
 
 ![Меню кабинета управления проектом](https://raw.githubusercontent.com/AlbertSadykovOfficial/space/master/PROJECT_SCREENSHOTS/project_settings_menu.jpg)
+
 Рис 2. Меню кабинета управления проектом
 
 ![Ключ доступа](https://raw.githubusercontent.com/AlbertSadykovOfficial/space/master/PROJECT_SCREENSHOTS/project_settings_key.jpg)
+
 Рис 3. Ключ доступа
 
 ## Отчет
@@ -90,10 +92,10 @@
 
 Работа Drag-n-Drop: Мы можем перетащить любой элемент (Мультимедиа, текст и др.) с другого сайта (Рис 4), при срабатывании на доске события Drop работает скрипт, который попытается определить тип содержимого, которое скинули на доску. Если это картинка (определяет по расширению в конце ссылки), то  он создаст объект картинки и асинхронно занесет ее в БД, то же самое и с другими мультимедиа файлами, если распознать объект не получится, то будет создан элемент - заметка, куда поместится содержимое буфера (Рис 5).
 
-![Перетаскивание картинки с другого сайта](https://raw.githubusercontent.com/AlbertSadykovOfficial/space/master/PROJECT_SCREENSHOTS/drag_from_another_site.JPG)
+![Перетаскивание картинки с другого сайта](https://raw.githubusercontent.com/AlbertSadykovOfficial/space/master/PROJECT_SCREENSHOTS/drag_from_another_site.jpg)
 Рис. 4 - Перетаскивание картинки с другого сайта
 
-![После срабатывания события Drop](https://raw.githubusercontent.com/AlbertSadykovOfficial/space/master/PROJECT_SCREENSHOTS/drop_from_another_site.JPG) 
+![После срабатывания события Drop](https://raw.githubusercontent.com/AlbertSadykovOfficial/space/master/PROJECT_SCREENSHOTS/drop_from_another_site.jpg) 
 Рис. 5 - После срабатывания события Drop
 
 
